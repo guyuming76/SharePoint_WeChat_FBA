@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="ed18d00f-da2b-4d91-85d4-615c3df84358" 
+        solutionId="ed18d00f-da2b-4d91-85d4-615c3df84358" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="SPDEV"
+        sharePointProductVersion="14.0">
+</package>

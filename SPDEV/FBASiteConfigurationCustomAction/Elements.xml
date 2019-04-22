@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <HideCustomAction
+    Id="hideFBASiteConfiguration"
+    GroupId="UsersAndPermissions"
+    Location="Microsoft.SharePoint.SiteSettings"
+    HideActionId="FBASiteConfiguration">
+  </HideCustomAction>
+  <CustomAction>
+    Id="WeChatFBASiteConfiguration"
+    GroupId="UsersAndPermissions"
+    Location="Microsoft.SharePoint.SiteSettings">
+
+    Sequence="112"
+    RequireSiteAdministrator="TRUE"
+    Title="$Resources:MyResource,WeChatFBASiteConfig;"
+    Description="$Resources:MyResource,WeChatFBASiteConfig;">
+    <UrlAction Url="~site/_layouts/FBA/FBASiteConfiguration.aspx" />
+  
+  </CustomAction>
+ 
+</Elements>

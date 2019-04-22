@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="activateYourAccount" xml:space="preserve">
+    <value>Click the link in email to activate your account</value>
+  </data>
+  <data name="guest" xml:space="preserve">
+    <value>Scan the QR with WeChat and follow the public account to get username and dynamic password. Or register an account with Email. If you do not want to register, you can sign in with user name "guest" and password "guest" </value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Invalid token in  Url query string for  account activation</value>
+  </data>
+  <data name="RegisterNewUser" xml:space="preserve">
+    <value>Register new user with Email</value>
+  </data>
+  <data name="IForgetMyPassword" xml:space="preserve">
+    <value>Get back accounts with Email and reset password</value>
+  </data>
+  <data name="IForgetMyPasswordUseEmailToReset" xml:space="preserve">
+    <value>Please provide the Email address you used to register account, to which an Email will be sent. Follow the link in the email to reset password.</value>
+  </data>
+  <data name="getBackAccountsLink" xml:space="preserve">
+    <value>Click the link in email to get back your accounts</value>
+  </data>
+  <data name="NoUserRegisteredByThisEmail" xml:space="preserve">
+    <value>No user registered by this Email.</value>
+  </data>
+  <data name="LinkExpired" xml:space="preserve">
+    <value>Link expired, its valid for 30 minutes since creation.</value>
+  </data>
+  <data name="ChooseTheAccountRegisteredByThisMailbox" xml:space="preserve">
+    <value>The following accounts are all registered with this Mailbox, choose and reset passowrd.</value>
+  </data>
+  <data name="GetBackAccountsWithEmail" xml:space="preserve">
+    <value>Get back accounts with Email and reset passwword</value>
+  </data>
+  <data name="CannotChangePasswordForBuiltInAccount" xml:space="preserve">
+    <value>Cannot change password for builtIn account</value>
+  </data>
+  <data name="SendEmailToActivateAccount" xml:space="preserve">
+    <value>Please leave a valid Email address, to which an Email will be sent. (Note that the email can be treated as SPAM and moved into trash folder by email system). Click the link in the email to activate this account within 30 minutes. If the link expired, or you don't receive the email at all, you can click the "I forget my password" link on SignIn page to get another email to get back your account, which will also activate an account.</value>
+  </data>
+  <data name="WeChatConfig" xml:space="preserve">
+    <value>WeChat Public Account backend configuration</value>
+  </data>
+  <data name="WeChatConfigDesc" xml:space="preserve">
+    <value>match configurations here with those in  https://mp.weixin.qq.com/</value>
+  </data>
+  <data name="WeChatServiceAppID" xml:space="preserve">
+    <value>WeChat public account（AppID）</value>
+  </data>
+  <data name="WeChatServiceEncodingAESKey" xml:space="preserve">
+    <value>WeChat Service EncodingAESKey</value>
+  </data>
+  <data name="WeChatServiceToken" xml:space="preserve">
+    <value>WeChat Service Token</value>
+  </data>
+  <data name="WeChatServiceUrl" xml:space="preserve">
+    <value>WeChat Service Url</value>
+  </data>
+  <data name="WeChatPublicAccountNameAndFBARole" xml:space="preserve">
+    <value>FBA role name for this WeChat public account</value>
+  </data>
+  <data name="WeChatFBASiteConfig" xml:space="preserve">
+    <value>WeChat and FBA Site Configuration</value>
+  </data>
+</root>

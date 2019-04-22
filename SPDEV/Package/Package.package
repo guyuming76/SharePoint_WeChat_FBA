@@ -1,8 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package dslVersion="1.0.0.0" 
-        Id="ed18d00f-da2b-4d91-85d4-615c3df84358" 
-        solutionId="ed18d00f-da2b-4d91-85d4-615c3df84358" 
-        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
-        name="SPDEV"
-        sharePointProductVersion="14.0">
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="ed18d00f-da2b-4d91-85d4-615c3df84358" solutionId="ed18d00f-da2b-4d91-85d4-615c3df84358" resetWebServer="false" name="SPDEV" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
+  <assemblies>
+    <projectOutputAssembly location="CustomMembershipProvider.dll" deploymentTarget="GlobalAssemblyCache" projectPath="..\CustomMembershipProvider\CustomMembershipProvider.csproj" />
+    <projectOutputAssembly location="Senparc.Weixin.dll" deploymentTarget="GlobalAssemblyCache" projectPath="..\..\WeiXinMPSDK\Senparc.Weixin\Senparc.Weixin\Senparc.Weixin.csproj" />
+    <projectOutputAssembly location="Senparc.Weixin.QY.dll" deploymentTarget="GlobalAssemblyCache" projectPath="..\..\WeiXinMPSDK\Senparc.Weixin.QY\Senparc.Weixin.QY\Senparc.Weixin.QY.csproj" />
+    <projectOutputAssembly location="Senparc.Weixin.MP.Sample.CommonService.dll" deploymentTarget="GlobalAssemblyCache" projectPath="..\..\WeiXinMPSDK\Senparc.Weixin.MP.Sample\Senparc.Weixin.MP.Sample.CommonService\Senparc.Weixin.MP.Sample.CommonService.csproj" />
+    <projectOutputAssembly location="Senparc.Weixin.MP.dll" deploymentTarget="GlobalAssemblyCache" projectPath="..\..\WeiXinMPSDK\Senparc.Weixin.MP\Senparc.Weixin.MP\Senparc.Weixin.MP.csproj" />
+  </assemblies>
+  <features>
+    <featureReference itemId="2528a5a0-1b99-4433-a695-2a86b93f025b" />
+    <featureReference itemId="4926bcf5-d78f-4d3d-bc26-cad606208bf6" />
+  </features>
+  <projectItems>
+    <projectItemReference itemId="5b3483ff-1ee2-4bfa-929c-82f893966021" />
+  </projectItems>
 </package>

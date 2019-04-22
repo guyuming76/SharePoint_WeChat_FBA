@@ -40,29 +40,173 @@
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.IdentityModel\3.5.0.0__31bf3856ad364e35\Microsoft.IdentityModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.IdentityModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.SharePoint.IdentityModel\14.0.0.0__71e9bce111e9429c\Microsoft.SharePoint.IdentityModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Security, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.SharePoint" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FBADataSource.cs" />
+    <Compile Include="FBADiagnosticsService.cs" />
+    <Compile Include="FBARolesView.cs" />
+    <Compile Include="FBAUsersView.cs" />
+    <Compile Include="Features\DiagnosticsService\DiagnosticsService.EventReceiver.cs">
+      <DependentUpon>DiagnosticsService.feature</DependentUpon>
+    </Compile>
+    <Compile Include="helpers\ImageHelper.cs" />
+    <Compile Include="helpers\MemebershipRoleProviderHelper.cs" />
+    <Compile Include="helpers\SPDPAPI.cs" />
+    <Compile Include="helpers\SPHelper.cs" />
+    <Compile Include="Layouts\FBA\ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\FBA\ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\FBA\FBASiteConfiguration.aspx.cs">
+      <DependentUpon>FBASiteConfiguration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\FBA\FBASiteConfiguration.aspx.designer.cs">
+      <DependentUpon>FBASiteConfiguration.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\FBA\GetBackAccountsByEmail.aspx.cs">
+      <DependentUpon>GetBackAccountsByEmail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\FBA\GetBackAccountsByEmail.aspx.designer.cs">
+      <DependentUpon>GetBackAccountsByEmail.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\FBA\IForgetMyPassword.aspx.cs">
+      <DependentUpon>IForgetMyPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\FBA\IForgetMyPassword.aspx.designer.cs">
+      <DependentUpon>IForgetMyPassword.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\FBA\LoginForm1.aspx.cs">
+      <DependentUpon>LoginForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\FBA\UserActivate.aspx.cs">
+      <DependentUpon>UserActivate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\FBA\UserActivate.aspx.designer.cs">
+      <DependentUpon>UserActivate.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\FBA\UserRegister.aspx.cs">
+      <DependentUpon>UserRegister.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\FBA\UserRegister.aspx.designer.cs">
+      <DependentUpon>UserRegister.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\FBA\UserResetPasswordWithToken.aspx.cs">
+      <DependentUpon>UserResetPasswordWithToken.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\FBA\UserResetPasswordWithToken.aspx.designer.cs">
+      <DependentUpon>UserResetPasswordWithToken.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\weixin\MyCustomMessageHandler.cs" />
+    <Compile Include="Layouts\weixin\MyCustomMessageHandler_MessageText.cs" />
+    <Compile Include="Layouts\weixin\WeChatException.cs" />
+    <Compile Include="Layouts\weixin\weixin.cs" />
+    <Compile Include="LocalizedString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="deploy.ps1" />
+    <None Include="FBASiteConfigurationCustomAction\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{e7bd0a6f-2b37-4d1e-8629-04cac64022e4}</SharePointProjectItemId>
+    </None>
+    <None Include="Features\DiagnosticsService\DiagnosticsService.feature">
+      <FeatureId>{4926bcf5-d78f-4d3d-bc26-cad606208bf6}</FeatureId>
+    </None>
+    <None Include="Features\SignIn User registration and WeiChat Public Account\SignIn User registration and WeiChat Public Account.feature">
+      <FeatureId>{2528a5a0-1b99-4433-a695-2a86b93f025b}</FeatureId>
+    </None>
     <None Include="key.snk" />
+    <None Include="Layouts\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{5b3483ff-1ee2-4bfa-929c-82f893966021}</SharePointProjectItemId>
+    </None>
+    <None Include="Layouts\weixin\weixin.ashx" />
     <None Include="Package\Package.package">
       <PackageId>{ed18d00f-da2b-4d91-85d4-615c3df84358}</PackageId>
     </None>
     <None Include="Package\Package.Template.xml">
       <DependentUpon>Package.package</DependentUpon>
     </None>
+    <None Include="ResourcesAppGlobal\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{6f5ae554-d340-4b0a-aca2-d25fe8e7d0f0}</SharePointProjectItemId>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Features\" />
+    <EmbeddedResource Include="ResourcesAppGlobal\MyResource.en-us.resx" />
+    <EmbeddedResource Include="ResourcesAppGlobal\MyResource.resx" />
+    <EmbeddedResource Include="ResourcesAppGlobal\MyResource.zh-cn.resx" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="FBASiteConfigurationCustomAction\Elements.xml" />
+    <Content Include="Features\DiagnosticsService\DiagnosticsService.Template.xml">
+      <DependentUpon>DiagnosticsService.feature</DependentUpon>
+    </Content>
+    <Content Include="Features\SignIn User registration and WeiChat Public Account\SignIn User registration and WeiChat Public Account.Template.xml">
+      <DependentUpon>SignIn User registration and WeiChat Public Account.feature</DependentUpon>
+    </Content>
+    <Content Include="Layouts\FBA\ChangePassword.aspx" />
+    <Content Include="Layouts\FBA\FBASiteConfiguration.aspx" />
+    <Content Include="Layouts\FBA\GetBackAccountsByEmail.aspx" />
+    <Content Include="Layouts\FBA\gg.png" />
+    <Content Include="Layouts\FBA\ggSmall.png" />
+    <Content Include="Layouts\FBA\IForgetMyPassword.aspx" />
+    <Content Include="Layouts\FBA\LoginForm1.aspx" />
+    <Content Include="Layouts\FBA\UserActivate.aspx" />
+    <Content Include="Layouts\FBA\UserRegister.aspx" />
+    <Content Include="Layouts\FBA\UserResetPasswordWithToken.aspx" />
+    <Content Include="Layouts\weixin\WeChat100.png" />
+    <Content Include="Layouts\weixin\WeChat200.png" />
+    <Content Include="ResourcesAppGlobal\Elements.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharePointFBAPack\Visigo.Sharepoint.FormsBasedAuthentication\Visigo.Sharepoint.FormsBasedAuthentication\Visigo.Sharepoint.FormsBasedAuthentication.csproj">
+      <Project>{656ba946-6354-466b-8472-2ee327937a46}</Project>
+      <Name>Visigo.Sharepoint.FormsBasedAuthentication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WeiXinMPSDK\Senparc.Weixin.MP.Sample\Senparc.Weixin.MP.Sample.CommonService\Senparc.Weixin.MP.Sample.CommonService.csproj">
+      <Project>{ccd291e9-16fa-4b53-b032-ebd3f659567b}</Project>
+      <Name>Senparc.Weixin.MP.Sample.CommonService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WeiXinMPSDK\Senparc.Weixin.MP\Senparc.Weixin.MP\Senparc.Weixin.MP.csproj">
+      <Project>{1d815fbf-451c-4e23-939c-cb80172f445c}</Project>
+      <Name>Senparc.Weixin.MP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WeiXinMPSDK\Senparc.Weixin\Senparc.Weixin\Senparc.Weixin.csproj">
+      <Project>{814092cd-9cd0-4fb7-91e8-d147f476f1fb}</Project>
+      <Name>Senparc.Weixin</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

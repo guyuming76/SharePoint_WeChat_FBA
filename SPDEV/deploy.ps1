@@ -1,0 +1,1 @@
+﻿ update-spsolution -identity spdev.wsp  -literalpath F:\gu_yu_Documents\spdev.wsp -gacdeployment

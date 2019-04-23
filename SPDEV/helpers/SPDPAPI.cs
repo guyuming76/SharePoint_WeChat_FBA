@@ -71,6 +71,8 @@ namespace SharePoint.Helpers
             //StringBuilder stringBuilder = new StringBuilder();
             if (string.IsNullOrEmpty(text))
             { return string.Empty; }
+            else if (text.Trim().Equals(string.Empty))
+            { return string.Empty; }
             else
             {
                 byte[] array = null;

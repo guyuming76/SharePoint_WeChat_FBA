@@ -121,7 +121,7 @@
     <value>点击邮件里的链接激活您的账号</value>
   </data>
   <data name="guest" xml:space="preserve">
-    <value>微信扫一扫二维码，关注公众号以获取网站用户名和动态密码。或者使用邮箱注册网站账号。如果您不想注册账号，可以选择使用用户名“guest”登录，密码也是“guest”</value>
+    <value>如果您不想注册账号，可以选择使用用户名“guest”登录，密码也是“guest”</value>
   </data>
   <data name="InvalidToken" xml:space="preserve">
     <value>链接里Token参数无效，无法激活账户</value>
@@ -179,5 +179,8 @@
   </data>
   <data name="WeChatFBASiteConfig" xml:space="preserve">
     <value>微信公众号及表单认证登录设置</value>
+  </data>
+  <data name="LoginFormQR" xml:space="preserve">
+    <value>微信扫一扫二维码，关注公众号以获取网站用户名和动态密码。或者使用邮箱注册网站账号。</value>
   </data>
 </root>

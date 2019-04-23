@@ -3,9 +3,12 @@
 <%@ Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Register Tagprefix="Utilities" Namespace="Microsoft.SharePoint.Utilities" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Register Tagprefix="asp" Namespace="System.Web.UI" Assembly="System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" %>
+<%@ Register Tagprefix="sysweb" Namespace="System.Web.UI.WebControls" Assembly="System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" %>
 <%@ Import Namespace="Microsoft.SharePoint" %>
 <%@ Assembly Name="Microsoft.Web.CommandUI, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="Sharepoint.FormsBasedAuthentication.LoginForm1" MasterPageFile="~/_layouts/simple.master"  %>
+
+
 
 <asp:Content ID="PageHead" ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
 <%--    <script type="text/javascript"  charset="utf-8"
@@ -20,7 +23,7 @@
         }
 
         div.s4-simple-iconcont {
-            background-image: url("/_layouts/weixin/wechat100.png");
+            background-image: url("<%=qrUrl%>");
             height:100px;
             width:100px;
         }
@@ -33,7 +36,7 @@
 
 <asp:Content ID="PageTitleInTitleArea" ContentPlaceHolderID="PlaceHolderPageTitleInTitleArea" runat="server" >
 	<SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsFormsPageTitleInTitleArea" Visible="false" />
-    <asp:Label ID="guest" runat="server" Text="<%$Resources:MyResource,guest%>" Visible="true"></asp:Label>
+    <sysweb:Label ID="QR" runat="server" Text="<%$Resources:MyResource,LoginFormQR%>"></sysweb:Label><asp:Label ID="guest" runat="server" Text="<%$Resources:MyResource,guest%>" Visible="true"></asp:Label>
 </asp:Content>
 
 
@@ -77,10 +80,10 @@
  </asp:login>
 
     <br/>
-    <asp:HyperLink ID="registerNewUser" runat="server" Font-Bold="true" Font-Underline="true" Text="<%$Resources:MyResource,RegisterNewUser%>"></asp:HyperLink>
+    <sysweb:HyperLink ID="registerNewUser" runat="server" Font-Bold="true" Font-Underline="true" Text="<%$Resources:MyResource,RegisterNewUser%>"></sysweb:HyperLink>
     <br/>
     <br/>
-    <asp:HyperLink ID="IforgetMyPassword" runat="server" Font-Bold="true" Font-Underline="true" Text="<%$Resources:MyResource,IForgetMyPassword%>"></asp:HyperLink>
+    <sysweb:HyperLink ID="IforgetMyPassword" runat="server" Font-Bold="true" Font-Underline="true" Text="<%$Resources:MyResource,IForgetMyPassword%>"></sysweb:HyperLink>
 
 </asp:Content>
 

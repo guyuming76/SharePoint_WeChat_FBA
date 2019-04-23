@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -143,7 +144,7 @@
     <None Include="Features\DiagnosticsService\DiagnosticsService.feature">
       <FeatureId>{4926bcf5-d78f-4d3d-bc26-cad606208bf6}</FeatureId>
     </None>
-    <None Include="Features\SignIn User registration and WeiChat Public Account\SignIn User registration and WeiChat Public Account.feature">
+    <None Include="Features\WeChat Public Account\WeChat Public Account.feature">
       <FeatureId>{2528a5a0-1b99-4433-a695-2a86b93f025b}</FeatureId>
     </None>
     <None Include="key.snk" />
@@ -171,13 +172,14 @@
     <Content Include="Features\DiagnosticsService\DiagnosticsService.Template.xml">
       <DependentUpon>DiagnosticsService.feature</DependentUpon>
     </Content>
-    <Content Include="Features\SignIn User registration and WeiChat Public Account\SignIn User registration and WeiChat Public Account.Template.xml">
-      <DependentUpon>SignIn User registration and WeiChat Public Account.feature</DependentUpon>
+    <Content Include="Features\WeChat Public Account\WeChat Public Account.Template.xml">
+      <DependentUpon>WeChat Public Account.feature</DependentUpon>
     </Content>
     <Content Include="Layouts\FBA\ChangePassword.aspx" />
     <Content Include="Layouts\FBA\FBASiteConfiguration.aspx" />
     <Content Include="Layouts\FBA\GetBackAccountsByEmail.aspx" />
     <Content Include="Layouts\FBA\gg.png" />
+    <Content Include="Layouts\FBA\gg100.png" />
     <Content Include="Layouts\FBA\ggSmall.png" />
     <Content Include="Layouts\FBA\IForgetMyPassword.aspx" />
     <Content Include="Layouts\FBA\LoginForm1.aspx" />

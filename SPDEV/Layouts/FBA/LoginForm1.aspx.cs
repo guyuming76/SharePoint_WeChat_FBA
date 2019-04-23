@@ -2,6 +2,10 @@
 using Microsoft.SharePoint.IdentityModel.Pages;
 using System.Web.UI.WebControls;
 using System.Text;
+using System.Web;
+using Microsoft.SharePoint.Utilities;
+using Microsoft.SharePoint;
+using System.Linq;
 
 namespace Sharepoint.FormsBasedAuthentication
 {
@@ -9,20 +13,43 @@ namespace Sharepoint.FormsBasedAuthentication
     {
         protected HyperLink registerNewUser;
         protected HyperLink IforgetMyPassword;
+        protected Label QR;
+        protected string qrUrl;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            string returnurl = System.Web.HttpUtility.UrlDecode(HttpContext.Current.Request.QueryString["ReturnUrl"]);
+            string absoluteReturnurl = SPUtility.ConcatUrls(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority).ToString(), returnurl);
+            using (SPSite sitecollection = new SPSite(absoluteReturnurl))
+            {
+                if (sitecollection.Features.Cast<SPFeature>().FirstOrDefault(_=>_.DefinitionId.Equals(new Guid("a72382ee-7a69-4a59-aa8d-86d47ebc5fd0")))==null)
+                {
+                    //no wechat public account
+                    qrUrl = SPUtility.ConcatUrls(sitecollection.ServerRelativeUrl, "/_layouts/FBA/gg100.png");
 
-            //string atk = AccessTokenContainer.TryGetToken("wxee56a98aeb2690f4", "7f9dd19106d03102a57a4e05ede14f4d");
-            //if (string.IsNullOrEmpty(atk))
-            //{
-            //    throw new Exception("Empty weixin AccessToken");
-            //}
-            //int scenId = (new Guid()).GetHashCode();
-            //CreateQrCodeResult qr = QrCodeApi.Create(atk, 600, scenId);
-            //WeixinQr.ImageUrl = QrCodeApi.GetShowQrCodeUrl(qr.ticket);
+                        //qrUrl = returnurl.Replace("/_layouts/authenticate.aspx", "/_layouts/FBA/gg100.png");
+                    
+                    QR.Visible = false;   
+                }
+                else
+                {
+                    qrUrl = SPUtility.ConcatUrls(sitecollection.ServerRelativeUrl, "/Style%20Library/wechat100.png");
+                    //qrUrl = returnurl.Replace("/_layouts/authenticate.aspx", "/Style%20Library/wechat100.png");
+                    QR.Visible = true;
+                }
+            }
 
-            
+                
+
+        //string atk = AccessTokenContainer.TryGetToken("wxee56a98aeb2690f4", "7f9dd19106d03102a57a4e05ede14f4d");
+        //if (string.IsNullOrEmpty(atk))
+        //{
+        //    throw new Exception("Empty weixin AccessToken");
+        //}
+        //int scenId = (new Guid()).GetHashCode();
+        //CreateQrCodeResult qr = QrCodeApi.Create(atk, 600, scenId);
+        //WeixinQr.ImageUrl = QrCodeApi.GetShowQrCodeUrl(qr.ticket);
+        
 
         }
 

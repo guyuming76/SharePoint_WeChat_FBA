@@ -121,7 +121,7 @@
     <value>Click the link in email to activate your account</value>
   </data>
   <data name="guest" xml:space="preserve">
-    <value>Scan the QR with WeChat and follow the public account to get username and dynamic password. Or register an account with Email. If you do not want to register, you can sign in with user name "guest" and password "guest" </value>
+    <value>If you do not want to register, you can sign in with user name "guest" and password "guest" </value>
   </data>
   <data name="InvalidToken" xml:space="preserve">
     <value>Invalid token in  Url query string for  account activation</value>
@@ -179,5 +179,8 @@
   </data>
   <data name="WeChatFBASiteConfig" xml:space="preserve">
     <value>WeChat and FBA Site Configuration</value>
+  </data>
+  <data name="LoginFormQR" xml:space="preserve">
+    <value>Scan the QR with WeChat and follow the public account to get username and dynamic password. Or register an account with Email.</value>
   </data>
 </root>

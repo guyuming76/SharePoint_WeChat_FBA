@@ -71,7 +71,10 @@
 
             <wssuc:InputFormControl runat="server" LabelText="<% $Resources: MyResource, WeChatPublicAccountNameAndFBARole %>">
 			    <Template_Control>
-                    <SharePoint:InputFormTextBox Title="<% $Resources: MyResource, WeChatPublicAccountNameAndFBARole %>" class="ms-input" Columns="40" maxlength="255" ID="WeChatPublicAccountNameAndFBARole" Direction="LeftToRight" Runat="server" Enabled="True" />
+                    <SharePoint:InputFormTextBox Title="<% $Resources: MyResource, WeChatPublicAccountNameAndFBARole %>" class="ms-input" Columns="40" maxlength="255" ID="WeChatPublicAccountNameAndFBARole" Direction="LeftToRight" Runat="server" Enabled="True"  />
+
+                    <asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Required!" ControlToValidate="WeChatPublicAccountNameAndFBARole"/>
+
                 </Template_Control>
 		    </wssuc:InputFormControl>
 

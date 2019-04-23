@@ -56,7 +56,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
@@ -130,7 +133,9 @@
     </Compile>
     <Compile Include="Layouts\weixin\MyCustomMessageHandler.cs" />
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_MessageText.cs" />
+    <Compile Include="helpers\SPUserNotesEx.cs" />
     <Compile Include="Layouts\weixin\WeChatException.cs" />
+    <Compile Include="Layouts\weixin\WeChatUser.cs" />
     <Compile Include="Layouts\weixin\weixin.cs" />
     <Compile Include="LocalizedString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

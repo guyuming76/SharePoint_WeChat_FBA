@@ -13,6 +13,7 @@ using System.Web.Security;
 using SharePoint.Helpers;
 using System.Collections.Generic;
 using Sharepoint.FormsBasedAuthentication;
+using SharePoint.Helper;
 
 namespace weixin
 {
@@ -21,28 +22,12 @@ namespace weixin
         //protected bool NeedToWriteMessageToSP;
         //protected CultureInfo NeedToSetCultureInfo;
 
-        protected CultureInfo _currentCulture;
+        //protected CultureInfo _currentCulture;
         public CultureInfo CurrentCulture
         {
             get
             {
-                if (_currentCulture == null)
-                {
-                    using (new SPMonitoredScope("Weixin.MyCustomMessageHandler.CurrentCulture.set", 5000))
-                    {
-                        try
-                        {
-                            _currentCulture = string.IsNullOrEmpty(SPFBAUser.Notes) ? new CultureInfo("zh-CN") : new CultureInfo(SPFBAUser.Notes);
-                        }
-                        catch (Exception ex)
-                        {
-                            MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.Weixin, Microsoft.SharePoint.Administration.TraceSeverity.Unexpected, ex.Message);
-                            MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.Weixin, Microsoft.SharePoint.Administration.TraceSeverity.Unexpected, ex.StackTrace);
-                            throw new ExceptionGetCultureForUser(SPFBAUserName);
-                        }
-                    }
-                }
-                return _currentCulture;
+                return SPFBAUser.Culture;
             }
             set
             {
@@ -50,9 +35,9 @@ namespace weixin
                 {
                     using (new SPMonitoredScope("Weixin.MyCustomMessageHandler.CurrentCulture.set", 5000))
                     {
-                        SPUser u = SPFBAUser;
-                        u.Notes = value.Name;
-                        u.Update();
+                        WeChatUser u = SPFBAUser;
+                        u.Culture = value;
+                        u.Save<WeChatUser>();
                     }
                 }
                 catch(Exception ex)
@@ -69,38 +54,43 @@ namespace weixin
             get { return Math.Abs(WeixinOpenId.GetHashCode()).ToString(); }
         }
 
-        public SPUser SPFBAUser
+        protected WeChatUser _weChatUser;
+        public WeChatUser SPFBAUser
         {
             get
             {
-                //try
-                //{
-                //    SPUser ret = SPContext.Current.Web.SiteUsers[string.Concat("i:0#.f|fbamember|", SPFBAUserName)];
-                //    if (ret == null)
-                //    {
-                //        throw new Exception("ToEnsureUser");
-                //    }
-                //    return ret;
-                //}
-                //catch(Exception ex)
-                //{
+                if (_weChatUser == null)
+                {
+                    //try
+                    //{
+                    //    SPUser ret = SPContext.Current.Web.SiteUsers[string.Concat("i:0#.f|fbamember|", SPFBAUserName)];
+                    //    if (ret == null)
+                    //    {
+                    //        throw new Exception("ToEnsureUser");
+                    //    }
+                    //    return ret;
+                    //}
+                    //catch(Exception ex)
+                    //{
                     Guid siteid = SPContext.Current.Site.ID;
                     Guid webid = SPContext.Current.Web.ID;
-                    SPUser ret = null;
+                    //WeChatUser ret = null;
 
-                    SPSecurity.RunWithElevatedPrivileges(delegate()
+                    SPSecurity.RunWithElevatedPrivileges(delegate ()
                     {
                         using (SPSite site = new SPSite(siteid))
                         {
                             using (SPWeb web = site.OpenWeb(webid))
                             {
-                                ret = web.EnsureUser(string.Concat("i:0#.f|fbamember|", SPFBAUserName));
+                                _weChatUser = SPUserNotesEx.DeserializeFromNotes<WeChatUser>(web.EnsureUser(string.Concat("i:0#.f|fbamember|", SPFBAUserName)));
+
                             }
                         }
                     });
+                }
 
-                    //MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.Weixin, Microsoft.SharePoint.Administration.TraceSeverity.High, string.Concat("SPFBAUser:", SPFBAUserName, ", Ensured."));
-                    return ret;
+                //MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.Weixin, Microsoft.SharePoint.Administration.TraceSeverity.High, string.Concat("SPFBAUser:", SPFBAUserName, ", Ensured."));
+                return _weChatUser;
                 //}
             }
         }
@@ -115,6 +105,13 @@ namespace weixin
         protected string serverUrl
         {
             get { return System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority); }
+        }
+
+        protected string SiteWelcomeUrl
+        {
+            //TODO:weixin 下面取WelcomeUrl 报ThreadAbort Exception 估计是没提权的原因，暂且Hardcode
+            //get { return SPUtility.GetFullUrl(SPContext.Current.Site, SPUtility.ConcatUrls(SPContext.Current.Site.RootWeb.ServerRelativeUrl,SPContext.Current.Site.RootWeb.RootFolder.WelcomePage)); }
+            get { return SPUtility.GetFullUrl(SPContext.Current.Site, SPUtility.ConcatUrls(SPContext.Current.Site.RootWeb.ServerRelativeUrl, "Lists/List/AllItems.aspx")); }
         }
 
         protected HttpContext Ctx;
@@ -134,6 +131,12 @@ namespace weixin
                     case "g":
                         responseMessage.Content = GetSPFBAUserNamePassword();
                         break;
+                    case "debug":
+                        SPFBAUser.Debug = true;
+                        SPFBAUser.Save<WeChatUser>();
+                        responseMessage.Content = GetWelcomeInfo(CurrentCulture);
+                        break;
+
                     case "cn":
                         CultureInfo c = new CultureInfo("zh-CN");
                         CurrentCulture = c;
@@ -206,7 +209,7 @@ namespace weixin
                         Guid siteid = SPContext.Current.Site.ID;
                         Guid webid = SPContext.Current.Web.ID;
 
-                        using (SPSite site = new SPSite(siteid, SPFBAUser.UserToken))
+                        using (SPSite site = new SPSite(siteid, SPFBAUser.user.UserToken))
                         {
                             using (SPWeb web = site.OpenWeb(webid))
                             {
@@ -384,6 +387,8 @@ namespace weixin
                             {
                                 currentWeixinFBA = web.EnsureUser(string.Concat("i:0#.f|fbamember|", username));
 
+                                //WeChatUser u = new WeChatUser(currentWeixinFBA);
+
                                 //TODO: 把库Title的获取变成SiteProperty，可以为不同的公众号Override，另外加上中英文Title测试，貌似中文状态用英文获取不了。
                                 SPHelper.EnsurePersonalFolder(web, web.Lists["图片库"].DefaultViewUrl, SPFBAUserName);
                                 SPHelper.EnsurePersonalFolder(web, web.Lists["文档库"].DefaultViewUrl, SPFBAUserName);
@@ -413,7 +418,7 @@ namespace weixin
                     Guid siteid = SPContext.Current.Site.ID;
                     Guid webid = SPContext.Current.Web.ID;
 
-                    using (SPSite site = new SPSite(siteid, SPFBAUser.UserToken))
+                    using (SPSite site = new SPSite(siteid, SPFBAUser.user.UserToken))
                     {
                         using (SPWeb web = site.OpenWeb(webid))
                         {

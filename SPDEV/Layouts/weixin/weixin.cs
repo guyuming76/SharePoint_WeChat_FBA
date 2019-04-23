@@ -1,6 +1,7 @@
 ﻿using Microsoft.SharePoint;
 using Microsoft.SharePoint.Utilities;
 using Senparc.Weixin.MP;
+using Senparc.Weixin.MP.Entities;
 using Senparc.Weixin.MP.Entities.Request;
 using Sharepoint.FormsBasedAuthentication;
 using SharePoint.Helpers;
@@ -75,7 +76,7 @@ namespace weixin
 
         public void ProcessRequest(HttpContext context)
         {
-            using (new SPMonitoredScope("Weixin.ProcessRequest", 5000))
+            using (SPMonitoredScope m=new SPMonitoredScope("Weixin.ProcessRequest", 5000))
             {
                 MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.Weixin, Microsoft.SharePoint.Administration.TraceSeverity.Verbose, string.Concat(context.Request.HttpMethod, ":", context.Request.RawUrl));
 
@@ -153,6 +154,11 @@ namespace weixin
                         //messageHandler.ResponseDocument.Save(
                         //    context.Server.MapPath("~/App_Data/" + DateTime.Now.Ticks + "_Response_" +
                         //                   messageHandler.ResponseMessage.ToUserName + ".txt"));
+                        if (messageHandler.SPFBAUser.Debug)
+                        {
+                            string debug = string.Concat("start-end(mm:ss:ff): ", string.Format("{0:mm:ss:ff}", m.GetMonitor<SPExecutionTimeCounter>().StartTime), "-", string.Format("{0:mm:ss:ff}", m.GetMonitor<SPExecutionTimeCounter>().EndTime), ", duration(ms):", m.GetMonitor<SPExecutionTimeCounter>().Value);
+                            (messageHandler.ResponseMessage as ResponseMessageText).Content += string.Concat(System.Environment.NewLine, debug);
+                        }
 
                         context.Response.Output.Write(messageHandler.ResponseDocument.ToString());
                         return;
@@ -165,6 +171,7 @@ namespace weixin
                     }
                     finally
                     {
+                        
                         context.Response.End();
                     }
                 }

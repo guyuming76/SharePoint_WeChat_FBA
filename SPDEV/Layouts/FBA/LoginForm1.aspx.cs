@@ -18,28 +18,32 @@ namespace Sharepoint.FormsBasedAuthentication
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            string returnurl = System.Web.HttpUtility.UrlDecode(HttpContext.Current.Request.QueryString["ReturnUrl"]);
-            string absoluteReturnurl = SPUtility.ConcatUrls(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority).ToString(), returnurl);
-            using (SPSite sitecollection = new SPSite(absoluteReturnurl))
+            using (SPMonitoredScope m = new SPMonitoredScope("LoginForm1.Page_Load", 5000))
             {
-                if (sitecollection.Features.Cast<SPFeature>().FirstOrDefault(_=>_.DefinitionId.Equals(new Guid("a72382ee-7a69-4a59-aa8d-86d47ebc5fd0")))==null)
+                string returnurl = System.Web.HttpUtility.UrlDecode(HttpContext.Current.Request.QueryString["ReturnUrl"]);
+                string absoluteReturnurl = SPUtility.ConcatUrls(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority).ToString(), returnurl);
+                using (SPSite sitecollection = new SPSite(absoluteReturnurl))
                 {
-                    //no wechat public account
-                    qrUrl = SPUtility.ConcatUrls(sitecollection.ServerRelativeUrl, "/_layouts/FBA/gg100.png");
+                    if (sitecollection.Features.Cast<SPFeature>().FirstOrDefault(_ => _.DefinitionId.Equals(new Guid("a72382ee-7a69-4a59-aa8d-86d47ebc5fd0"))) == null)
+                    {
+                        //no wechat public account
+                        qrUrl = SPUtility.ConcatUrls(sitecollection.ServerRelativeUrl, "/_layouts/FBA/gg100.png");
 
                         //qrUrl = returnurl.Replace("/_layouts/authenticate.aspx", "/_layouts/FBA/gg100.png");
-                    
-                    QR.Visible = false;   
-                }
-                else
-                {
-                    qrUrl = SPUtility.ConcatUrls(sitecollection.ServerRelativeUrl, "/Style%20Library/wechat100.png");
-                    //qrUrl = returnurl.Replace("/_layouts/authenticate.aspx", "/Style%20Library/wechat100.png");
-                    QR.Visible = true;
-                }
-            }
 
-                
+                        QR.Visible = false;
+                    }
+                    else
+                    {
+                        qrUrl = SPUtility.ConcatUrls(sitecollection.ServerRelativeUrl, "/Style%20Library/wechat100.png");
+                        //qrUrl = returnurl.Replace("/_layouts/authenticate.aspx", "/Style%20Library/wechat100.png");
+                        QR.Visible = true;
+                    }
+                }
+
+               //QR.Text = string.Concat("start-end(mm:ss:ff): ",string.Format("{0:mm:ss:ff}", m.GetMonitor<SPExecutionTimeCounter>().StartTime), "-", string.Format("{0:mm:ss:ff}", m.GetMonitor<SPExecutionTimeCounter>().EndTime),", duration(ms):", m.GetMonitor<SPExecutionTimeCounter>().Value);
+               // QR.Visible = true;
+            }  
 
         //string atk = AccessTokenContainer.TryGetToken("wxee56a98aeb2690f4", "7f9dd19106d03102a57a4e05ede14f4d");
         //if (string.IsNullOrEmpty(atk))

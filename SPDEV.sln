@@ -5,6 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPDEV", "SPDEV\SPDEV.csproj", "{F7CA67A8-093F-4217-A2F0-B8EE709BBDB0}"
 	ProjectSection(ProjectDependencies) = postProject
+		{656BA946-6354-466B-8472-2EE327937A46} = {656BA946-6354-466B-8472-2EE327937A46}
 		{2CA35598-F1A1-4DC9-AA20-A4346BFCB954} = {2CA35598-F1A1-4DC9-AA20-A4346BFCB954}
 	EndProjectSection
 EndProject
@@ -23,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Senparc.Weixin.MP.Sample.Co
 		{814092CD-9CD0-4FB7-91E8-D147F476F1FB} = {814092CD-9CD0-4FB7-91E8-D147F476F1FB}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visigo.Sharepoint.FormsBasedAuthentication", "..\SharePointFBAPack\Visigo.Sharepoint.FormsBasedAuthentication\Visigo.Sharepoint.FormsBasedAuthentication\Visigo.Sharepoint.FormsBasedAuthentication.csproj", "{656BA946-6354-466B-8472-2EE327937A46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visigo.Sharepoint.FormsBasedAuthentication", "F:\SP2010Customization\SharePointFBAPack\Visigo.Sharepoint.FormsBasedAuthentication\Visigo.Sharepoint.FormsBasedAuthentication\Visigo.Sharepoint.FormsBasedAuthentication.csproj", "{656BA946-6354-466B-8472-2EE327937A46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

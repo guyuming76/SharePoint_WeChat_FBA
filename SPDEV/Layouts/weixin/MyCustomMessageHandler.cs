@@ -17,7 +17,7 @@ using SharePoint.Helper;
 
 namespace weixin
 {
-    public partial class MyCustomMessageHandler:CustomMessageHandler
+    public partial class MyCustomMessageHandler:CustomMessageHandler,IDisposable
     {
         //protected bool NeedToWriteMessageToSP;
         //protected CultureInfo NeedToSetCultureInfo;
@@ -132,11 +132,17 @@ namespace weixin
                         responseMessage.Content = GetSPFBAUserNamePassword();
                         break;
                     case "debug":
-                        SPFBAUser.Debug = true;
+                        SPFBAUser.Debug = !SPFBAUser.Debug;
                         SPFBAUser.Save<WeChatUser>();
                         responseMessage.Content = GetWelcomeInfo(CurrentCulture);
                         break;
-
+                    case "x":
+                        SPFBAUser.SaveMessageToPublic = !SPFBAUser.SaveMessageToPublic;
+                        SPFBAUser.Save<WeChatUser>();
+                        responseMessage.Content = CurrentCulture.Equals(new CultureInfo("zh-CN"))?
+                            string.Concat("后续消息将", SPFBAUser.SaveMessageToPublic ? "公开" : "私有", "保存") :
+                            string.Concat("Future message will be saved ", SPFBAUser.SaveMessageToPublic ? "publicly" : "privately");
+                        break;
                     case "cn":
                         CultureInfo c = new CultureInfo("zh-CN");
                         CurrentCulture = c;
@@ -209,11 +215,18 @@ namespace weixin
                         Guid siteid = SPContext.Current.Site.ID;
                         Guid webid = SPContext.Current.Web.ID;
 
-                        using (SPSite site = new SPSite(siteid, SPFBAUser.user.UserToken))
+                        using (SPSite site = new SPSite(siteid, SPFBAUser.usertoken))
                         {
                             using (SPWeb web = site.OpenWeb(webid))
                             {
-                                spfileurl = SPUtility.ConcatUrls(SPUtility.ConcatUrls(web.Lists["图片库"].RootFolder.Url, SPFBAUserName), string.Concat(SPFBAUserName, "_", string.Format("{0:yyyyMMdd_HHmmss}", DateTime.Now), ".", ImageHelper.DetectImageExtension(picStream)));
+                                if (SPFBAUser.SaveMessageToPublic)
+                                {
+                                    spfileurl = SPUtility.ConcatUrls(web.Lists["图片库"].RootFolder.Url, string.Concat(SPFBAUserName, "_", string.Format("{0:yyyyMMdd_HHmmss}", DateTime.Now), ".", ImageHelper.DetectImageExtension(picStream)));
+                                }
+                                else
+                                {
+                                    spfileurl = SPUtility.ConcatUrls(SPUtility.ConcatUrls(web.Lists["图片库"].RootFolder.Url, SPFBAUserName), string.Concat(SPFBAUserName, "_", string.Format("{0:yyyyMMdd_HHmmss}", DateTime.Now), ".", ImageHelper.DetectImageExtension(picStream)));
+                                }
                                 web.Files.Add(spfileurl, picStream);
                             }
                         }
@@ -231,8 +244,8 @@ namespace weixin
                 }
             }
 
-            responseMessage.Content = CurrentCulture.Name.Equals("zh-CN") ? string.Concat("保存图片到服务器：",SPUtility.ConcatUrls(serverUrl,spfileurl))
-                : string.Concat("Image file saved to server: ", SPUtility.ConcatUrls(serverUrl, spfileurl));
+            responseMessage.Content = CurrentCulture.Name.Equals("zh-CN") ? string.Concat((SPFBAUser.SaveMessageToPublic?"公开":"私有"),"保存图片到服务器：",SPUtility.ConcatUrls(serverUrl,spfileurl))
+                : string.Concat("Image file saved to server ", (SPFBAUser.SaveMessageToPublic ? "publicly" : "privately"), ": ", SPUtility.ConcatUrls(serverUrl, spfileurl));
             return responseMessage;
         }
 
@@ -418,29 +431,41 @@ namespace weixin
                     Guid siteid = SPContext.Current.Site.ID;
                     Guid webid = SPContext.Current.Web.ID;
 
-                    using (SPSite site = new SPSite(siteid, SPFBAUser.user.UserToken))
+                    using (SPSite site = new SPSite(siteid, SPFBAUser.usertoken))
                     {
                         using (SPWeb web = site.OpenWeb(webid))
                         {
                             //http://blogs.microsoft.co.il/itaysk/2010/05/05/working-with-sharepoints-discussion-lists-programmatically-part-2/
-                            SPList privateMessage = web.GetList("/sites/public/lists/Private%20Message");
+                            //SPList currentMessageList = web.GetList("/sites/public/lists/Private%20Message");
+                            SPList currentMessageList = web.GetList(CurrentMessageListUrl);
                             string subject = content.Length > 255 ? content.Substring(0, 255) : content;
-                            SPListItem t = Microsoft.SharePoint.Utilities.SPUtility.CreateNewDiscussion(privateMessage, subject);
+                            SPListItem t = Microsoft.SharePoint.Utilities.SPUtility.CreateNewDiscussion(currentMessageList, subject);
                             t[SPBuiltInFieldId.Body] = content;
                             t.Update();
+
+                            
+                            
+
+
 
                             switch (CurrentCulture.Name)
                             {
                                 case "zh-CN":
+                                    string PrivateOrPublicMessage = SPFBAUser.SaveMessageToPublic ? "公开" : "作为私信";
                                     return
-                        "系统已把您发送的文本消息作为私信保存到电脑网站 " + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine
+                        //"系统已把您发送的文本消息作为私信保存到电脑网站 " + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine
+                        "系统已把您发送的文本消息 "+ PrivateOrPublicMessage + " 保存到电脑网站 " + SPUtility.ConcatUrls(serverUrl, currentMessageList.DefaultViewUrl) + System.Environment.NewLine
+                      + "发送字符 X 切换后续消息公开状态." + System.Environment.NewLine
                       + "您可以直接用电脑登录打开此链接查看回复，或者用电脑浏览器打开 " + serverUrl + " 搜索（比如用自己的用户名作为关键词）" + System.Environment.NewLine
                       + "发送单个字符 G 重新获取网站用户名及动态密码。" + System.Environment.NewLine
                       + "Please send message 'en' to switch to English." + System.Environment.NewLine;
                                 case "en-US":
                                 default:
+                                    string PrivateOrPublicMessageEn = SPFBAUser.SaveMessageToPublic ? "publicly" : "privately";
                                     return
-                     "System saved the text message you sent to as private discussion into this SharePoint discussion board:" + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine
+                     //"System saved the text message you sent to as private discussion into this SharePoint discussion board:" + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine
+                     "System saved the text message you sent "+ PrivateOrPublicMessageEn +" into this SharePoint discussion board:" + SPUtility.ConcatUrls(serverUrl, currentMessageList.DefaultViewUrl) + System.Environment.NewLine
+                    + "Send letter X to toggle future message privacy." + System.Environment.NewLine
                     + "You can open the link with PC browser to check reply，or open with PC browser " + serverUrl + " to search (using your username get here as keyword for example)." + System.Environment.NewLine
                     + "Send letter G to get username and dynamic password (if, for example, its 3 o'clock in the afternoon，the dynamic password returned will expire at 4 o'clock)." + System.Environment.NewLine
                     + "如果您想切换回中文,发送消息 'cn' ";
@@ -472,6 +497,7 @@ namespace weixin
                 }
             }
         }
+
 
     }
 }

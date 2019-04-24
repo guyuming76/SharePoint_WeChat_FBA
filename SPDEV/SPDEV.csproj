@@ -134,6 +134,8 @@
     <Compile Include="Layouts\weixin\MyCustomMessageHandler.cs" />
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_MessageText.cs" />
     <Compile Include="helpers\SPUserNotesEx.cs" />
+    <Compile Include="Layouts\weixin\MyCustomMessageHandler_ElevatedPriviliage.cs" />
+    <Compile Include="Layouts\weixin\MyCustomMessageHandler_Save.cs" />
     <Compile Include="Layouts\weixin\WeChatException.cs" />
     <Compile Include="Layouts\weixin\WeChatUser.cs" />
     <Compile Include="Layouts\weixin\weixin.cs" />
@@ -196,10 +198,6 @@
     <Content Include="ResourcesAppGlobal\Elements.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SharePointFBAPack\Visigo.Sharepoint.FormsBasedAuthentication\Visigo.Sharepoint.FormsBasedAuthentication\Visigo.Sharepoint.FormsBasedAuthentication.csproj">
-      <Project>{656ba946-6354-466b-8472-2ee327937a46}</Project>
-      <Name>Visigo.Sharepoint.FormsBasedAuthentication</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\WeiXinMPSDK\Senparc.Weixin.MP.Sample\Senparc.Weixin.MP.Sample.CommonService\Senparc.Weixin.MP.Sample.CommonService.csproj">
       <Project>{ccd291e9-16fa-4b53-b032-ebd3f659567b}</Project>
       <Name>Senparc.Weixin.MP.Sample.CommonService</Name>
@@ -211,6 +209,10 @@
     <ProjectReference Include="..\..\WeiXinMPSDK\Senparc.Weixin\Senparc.Weixin\Senparc.Weixin.csproj">
       <Project>{814092cd-9cd0-4fb7-91e8-d147f476f1fb}</Project>
       <Name>Senparc.Weixin</Name>
+    </ProjectReference>
+    <ProjectReference Include="F:\SP2010Customization\SharePointFBAPack\Visigo.Sharepoint.FormsBasedAuthentication\Visigo.Sharepoint.FormsBasedAuthentication\Visigo.Sharepoint.FormsBasedAuthentication.csproj">
+      <Project>{656ba946-6354-466b-8472-2ee327937a46}</Project>
+      <Name>Visigo.Sharepoint.FormsBasedAuthentication</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

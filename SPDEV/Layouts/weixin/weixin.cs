@@ -156,7 +156,7 @@ namespace weixin
                         //                   messageHandler.ResponseMessage.ToUserName + ".txt"));
                         if (messageHandler.SPFBAUser.Debug)
                         {
-                            string debug = string.Concat("start-end(mm:ss:ff): ", string.Format("{0:mm:ss:ff}", m.GetMonitor<SPExecutionTimeCounter>().StartTime), "-", string.Format("{0:mm:ss:ff}", m.GetMonitor<SPExecutionTimeCounter>().EndTime), ", duration(ms):", m.GetMonitor<SPExecutionTimeCounter>().Value);
+                            string debug = string.Concat("start-end(mm:ss:ff): ", string.Format("{0:mm:ss:ff}", m.GetMonitor<SPExecutionTimeCounter>().StartTime), "-", string.Format("{0:mm:ss:ff}", m.GetMonitor<SPExecutionTimeCounter>().EndTime), ", duration(ms):", Math.Round(Double.Parse(m.GetMonitor<SPExecutionTimeCounter>().Value.ToString())));
                             (messageHandler.ResponseMessage as ResponseMessageText).Content += string.Concat(System.Environment.NewLine, debug);
                         }
 

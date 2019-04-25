@@ -12,7 +12,6 @@ namespace Sharepoint.FormsBasedAuthentication
     /// </summary>
     public partial class UserActivate : UnsecuredLayoutsPageBase
     {
-        //private bool _showRoles;
         protected override bool AllowAnonymousAccess
         {
             get
@@ -27,15 +26,11 @@ namespace Sharepoint.FormsBasedAuthentication
 
         protected override void OnLoad(EventArgs e)
         {
-            //this.CheckRights();
-
-            // init
-            //_showRoles = (new MembershipSettings(SPContext.Current.Web)).EnableRoles;
-
             // get user info
             string userName = this.Request.QueryString["USERNAME"];
             string token = this.Request.QueryString["token"];
             string linkExpireTime = Request.QueryString["linkExpireTime"];
+            string emailInLower = Request.QueryString["email"].Trim().ToLower();
             //SPUser spuser = null;
             //try
             //{
@@ -67,13 +62,15 @@ namespace Sharepoint.FormsBasedAuthentication
                     isLocked.Checked = user.IsLockedOut;
                     isLocked.Enabled = user.IsLockedOut;
 
-                    if (string.Concat(user.UserName.ToLower(), user.Email.ToLower(), MyCustomMessageHandler.SecretGuid,linkExpireTime).GetHashCode().ToString().Equals(token))
+                    //if (string.Concat(user.UserName.ToLower(), user.Email.ToLower(), MyCustomMessageHandler.SecretGuid,linkExpireTime).GetHashCode().ToString().Equals(token))
+                    if (string.Concat(user.UserName.ToLower(), emailInLower, MyCustomMessageHandler.SecretGuid, linkExpireTime).GetHashCode().ToString().Equals(token))
                     {
                         if (DateTime.UtcNow.Ticks>long.Parse(linkExpireTime))
                         {
                             SPUtility.TransferToErrorPage(LocalizedString.GetGlobalString("MyResource", "LinkExpired"));
                         }
 
+                        user.Email = emailInLower;
                         user.IsApproved = true;
                         Utils.BaseMembershipProvider().UpdateUser(user);
 
@@ -106,58 +103,6 @@ namespace Sharepoint.FormsBasedAuthentication
                         SPUtility.TransferToErrorPage(LocalizedString.GetGlobalString("MyResource", "InvalidToken"));
                     }
 
-                    // if roles activated display roles
-                    //if (_showRoles)
-                    //{
-                    //    RolesSection.Visible = true;
-                    //    GroupSection.Visible = false;
-
-                    //    try
-                    //    {
-                    //        // load roles
-                    //        string[] roles = Utils.BaseRoleProvider().GetAllRoles();
-                    //        rolesList.DataSource = roles;
-                    //        rolesList.DataBind();
-
-                    //        // select roles associated with the user
-                    //        for (int i = 0; i < roles.Length; i++)
-                    //        {
-                    //            ListItem item = rolesList.Items.FindByText(roles[i].ToString());
-                    //            if (item != null) item.Selected = Utils.BaseRoleProvider().IsUserInRole(user.UserName, roles[i].ToString());
-                    //        }
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
-                    //        Utils.LogError(ex, true);
-                    //    }
-                    //}
-                    //// otherwise display groups
-                    //else 
-                    //{
-                    //    GroupSection.Visible = true;
-                    //    RolesSection.Visible = false;
-
-                    //    try
-                    //    {
-                    //        // load groups
-                    //        groupList.DataSource = this.Web.SiteGroups;
-                    //        groupList.DataBind();
-
-                    //        if (spuser != null)
-                    //        {
-                    //            // select groups associated with the user
-                    //            foreach (SPGroup group in spuser.Groups)
-                    //            {
-                    //                ListItem item = groupList.Items.FindByText(group.Name);
-                    //                if (item != null) item.Selected = true;
-                    //            }
-                    //        }
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
-                    //        Utils.LogError(ex, true);
-                    //    }
-                    //}
                 }
             }
             else
@@ -166,6 +111,8 @@ namespace Sharepoint.FormsBasedAuthentication
             }
         }
 
+        #region 没用
+        //这个没用，可以注释掉，Onload 成功后直接就 Redirect 掉了 ，除非以后成功后还容许在这个界面上设置一些用户属性
         protected void OnSubmit(object sender, EventArgs e)
         {
             // get user info
@@ -210,78 +157,7 @@ namespace Sharepoint.FormsBasedAuthentication
                         return;
                     }
 
-                    // if roles enabled add/remove user to selected role(s)
-                    //if (_showRoles)
-                    //{
-                    //    for (int i = 0; i < rolesList.Items.Count; i++)
-                    //    {
-                    //        if (rolesList.Items[i].Selected)
-                    //        {
-                    //            if (!Utils.BaseRoleProvider().IsUserInRole(user.UserName, rolesList.Items[i].Value))
-                    //                Utils.BaseRoleProvider().AddUsersToRoles(new string[] {user.UserName}, new string[] {rolesList.Items[i].Value});
-                    //        }
-                    //        else
-                    //        {
-                    //            if (Utils.BaseRoleProvider().IsUserInRole(user.UserName, rolesList.Items[i].Value))
-                    //                Utils.BaseRoleProvider().RemoveUsersFromRoles(new string[] {user.UserName}, new string[] {rolesList.Items[i].Value});
-                    //        }
-                    //    }
-                    //}
-                    // or add/remove user to selected group(s)
-                    //else
-                    //{
-                    //    for (int i = 0; i < groupList.Items.Count; i++)
-                    //    {
-                    //        string groupName = groupList.Items[i].Value;
-
-                    //        // determine whether user is in group
-                    //        bool userInGroup = false;
-
-                    //        if (spuser != null)
-                    //        {
-                    //            foreach (SPGroup group in spuser.Groups)
-                    //            {
-                    //                if (group.Name == groupName)
-                    //                {
-                    //                    userInGroup = true;
-                    //                    break;
-                    //                }
-                    //            }
-                    //        }
-
-                    //        // if selected add user to group
-                    //        if (groupList.Items[i].Selected)
-                    //        {
-                    //            // only add if not already in group
-                    //            if (!userInGroup)
-                    //            {
-                    //                //Add the user to SharePoint if they're not already a SharePoint user
-                    //                if (spuser == null)
-                    //                {
-                    //                    try
-                    //                    {
-                    //                        spuser = this.Web.EnsureUser(Utils.EncodeUsername(userName));
-                    //                    }
-                    //                    catch (Exception ex)
-                    //                    {
-                    //                        lblMessage.Text = LocalizedString.GetGlobalString("FBAPackWebPages", "ErrorAddingToSharePoint");
-                    //                        Utils.LogError(ex, false);
-                    //                        return;
-                    //                    }
-                    //                }
-                    //                this.Web.SiteGroups[groupName].AddUser(spuser);
-                    //            }
-                    //        }
-                    //        // else remove user from group
-                    //        else
-                    //        {
-                    //            // only attempt remove if actually in the group
-                    //            if (userInGroup)
-                    //                this.Web.SiteGroups[groupName].RemoveUser(spuser);
-                    //        }
-                    //    }
-                    //}
-
+     
                     // update sharepoint user info
                     if (spuser != null)
                     {
@@ -313,5 +189,6 @@ namespace Sharepoint.FormsBasedAuthentication
         {
             SPUtility.Redirect(string.Format("FBA/Management/UserDelete.aspx?UserName={0}&Source={1}", this.Request.QueryString["USERNAME"], SPHttpUtility.UrlKeyValueEncode(SPUtility.OriginalServerRelativeRequestUrl)), SPRedirectFlags.RelativeToLayoutsPage, this.Context);
         }
+        #endregion
     }
 }

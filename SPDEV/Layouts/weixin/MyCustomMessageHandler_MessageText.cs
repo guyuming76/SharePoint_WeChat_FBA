@@ -11,10 +11,10 @@ namespace weixin
             {
                 case "zh-CN":
                     return
-     "欢迎关注 guyuming！" + System.Environment.NewLine + System.Environment.NewLine
+    // "欢迎关注 guyuming！" + System.Environment.NewLine + System.Environment.NewLine
     //+ " 系统会把您发送到此公众号的文本消息作为私信保存到电脑网站 " + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine + System.Environment.NewLine
     //+ " 您可以直接用电脑登录打开此链接查看回复，或者用电脑浏览器打开 " + serverUrl + " 搜索（比如用自己的用户名作为关键词）" + System.Environment.NewLine
-    + "系统根据您的WeiXinOpenId在电脑网站(" + SiteWelcomeUrl + ") 生成用户名:" + SPFBAUserName + System.Environment.NewLine
+     "系统根据您的WeiXinOpenId在电脑网站(" + SiteWelcomeUrl + ") 生成用户名:" + SPFBAUserName + System.Environment.NewLine
     + "动态密码:" + DynamicPassword(SPFBAUserName) + System.Environment.NewLine + System.Environment.NewLine
     //+ " 当前整点时间是 " + string.Format("{0:yyyy/MM/dd dddd tt hh}", DateTime.Now) + "点。" + System.Environment.NewLine + System.Environment.NewLine
     + "发送单个字符 G 重新获取网站用户名及实时整点动态密码(假如现在是下午3点多，返回的动态密码当天下午4点失效)。" + System.Environment.NewLine + System.Environment.NewLine
@@ -28,10 +28,10 @@ namespace weixin
 
                 default:
                     return
-    "Thanks for following guyuming！" + System.Environment.NewLine + System.Environment.NewLine
+    //"Thanks for following guyuming！" + System.Environment.NewLine + System.Environment.NewLine
     //+ " System will save the text message you send to this WeChat public account as private discussion into this SharePoint discussion board:" + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine + System.Environment.NewLine
     //+ " You can open the link with PC browser to check reply，or open with PC browser " + serverUrl + " to search (using your username get here as keyword for example)." + System.Environment.NewLine
-    + "System created username " + SPFBAUserName + " for you (at SharePoint Site " +SiteWelcomeUrl+"):" + System.Environment.NewLine
+     "System created username " + SPFBAUserName + " for you (at SharePoint Site " +SiteWelcomeUrl+"):" + System.Environment.NewLine
     + "And dynamic password:" + DynamicPassword(SPFBAUserName) + System.Environment.NewLine + System.Environment.NewLine
     + "Send letter G to get new dynamic password (if, for example, its 3 o'clock in the afternoon，the dynamic password returned will expire at 4 o'clock)." + System.Environment.NewLine + System.Environment.NewLine
     //+ " System only handles text message now." + System.Environment.NewLine

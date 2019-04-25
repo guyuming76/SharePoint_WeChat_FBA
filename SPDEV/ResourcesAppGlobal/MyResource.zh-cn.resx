@@ -127,7 +127,7 @@
     <value>链接里Token参数无效，无法激活账户</value>
   </data>
   <data name="RegisterNewUser" xml:space="preserve">
-    <value>使用邮箱注册新用户</value>
+    <value>使用邮箱注册新用户（或为现有用户绑定邮箱）</value>
   </data>
   <data name="IForgetMyPassword" xml:space="preserve">
     <value>使用邮箱找回用户名重置密码</value>
@@ -182,5 +182,8 @@
   </data>
   <data name="LoginFormQR" xml:space="preserve">
     <value>微信扫一扫二维码，关注公众号以获取网站用户名和动态密码。或者使用邮箱注册网站账号。</value>
+  </data>
+  <data name="DuplicateUserNameWithEmail" xml:space="preserve">
+    <value>存在已验证邮箱的同名用户</value>
   </data>
 </root>

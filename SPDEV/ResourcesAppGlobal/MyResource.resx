@@ -127,7 +127,7 @@
     <value>Invalid token in  Url query string for  account activation</value>
   </data>
   <data name="RegisterNewUser" xml:space="preserve">
-    <value>Register new user with Email</value>
+    <value>Register new user with Email (Or associate Email for existing user)</value>
   </data>
   <data name="IForgetMyPassword" xml:space="preserve">
     <value>Get back accounts with Email and reset password</value>
@@ -182,5 +182,8 @@
   </data>
   <data name="LoginFormQR" xml:space="preserve">
     <value>Scan the QR with WeChat and follow the public account to get username and dynamic password. Or register an account with Email.</value>
+  </data>
+  <data name="DuplicateUserNameWithEmail" xml:space="preserve">
+    <value>Username with validated email already exists</value>
   </data>
 </root>

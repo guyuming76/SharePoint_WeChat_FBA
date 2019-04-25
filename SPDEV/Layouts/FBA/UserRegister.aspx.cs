@@ -27,68 +27,8 @@ namespace Sharepoint.FormsBasedAuthentication
         //    get { return true; }
         //}
 
-        protected override void OnLoad(EventArgs e)
-        {
-            //this.CheckRights();
-
-            //bool _showRoles = (new MembershipSettings(SPContext.Current.Web)).EnableRoles;
-
-            //ReqValEmailSubject.Enabled = emailUser.Checked;
-
-            if (!Page.IsPostBack)
-            {
-                try
-                {
-                    // if roles activated display roles
-                    //if (_showRoles)
-                    //{
-                    //    RolesSection.Visible = true;
-                    //    GroupSection.Visible = false;
-
-                    //    // load roles
-                    //    rolesList.DataSource = Utils.BaseRoleProvider().GetAllRoles();
-                    //    rolesList.DataBind();
-                    //}
-                    //// otherwise display groups
-                    //else
-                    //{
-                    //    GroupSection.Visible = true;
-                    //    RolesSection.Visible = false;
-
-                    //    // load groups
-                    //    groupList.DataSource = this.Web.SiteGroups;
-                    //    groupList.DataBind();
-                    //}
-
-                    // Display Question and answer if required by provider
-                    //if (Utils.BaseMembershipProvider().RequiresQuestionAndAnswer)
-                    //{
-                    //    QuestionSection.Visible = true;
-                    //    AnswerSection.Visible = true;
-                    //}
-                    //else
-                    //{
-                    //    QuestionSection.Visible = false;
-                    //    AnswerSection.Visible = false;
-                    //}
-                }
-                catch (Exception ex)
-                {
-                    Utils.LogError(ex, true);
-                }
-            }
-        }
-
         protected void OnSubmit(object sender, EventArgs e)
         {
-            // ModifiedBySolvion
-            // bhi - 09.01.2012
-            // Reset message labels
-            //lblMessage.Text = lblAnswerMessage.Text = lblEmailMessage.Text = lblPasswordMessage.Text = lblQuestionMessage.Text = "";
-            // EndModifiedBySolvion
-
-            //bool _showRoles = (new MembershipSettings(SPContext.Current.Web)).EnableRoles;
-
             // check to see if username already in use
             MembershipUser user = Utils.BaseMembershipProvider().GetUser(txtUsername.Text,false);
             
@@ -102,15 +42,13 @@ namespace Sharepoint.FormsBasedAuthentication
                     // create FBA database user
                     MembershipCreateStatus createStatus;
 
-                    //if (Utils.BaseMembershipProvider().RequiresQuestionAndAnswer)
-                    //{
-                    //    user = Utils.BaseMembershipProvider().CreateUser(txtUsername.Text, txtPassword.Text, txtEmail.Text, txtQuestion.Text, txtAnswer.Text, isActive.Checked, null, out createStatus);
-                    //}
-                    //else
-                    //{
-                        user = Utils.BaseMembershipProvider().CreateUser(txtUsername.Text, txtPassword.Text, txtEmail.Text, null, null, false, null, out createStatus);
-                    //}
-                    
+                    //user = Utils.BaseMembershipProvider().CreateUser(txtUsername.Text, txtPassword.Text, txtEmail.Text, null, null, false, null, out createStatus);
+                    //这里不应该写入邮箱，邮箱应该在激活成功后更新进去
+                    //如果激活邮件用户没收到，之前的设计是希望用户使用通过邮件找回账号的方式重置密码，同时激活账号
+                    //但没考到到如果之前输入了错误的邮箱号，或者这个邮箱本身打不开了怎么办，这样这个用户名就“死”了
+                    //现在改成在激活后写入邮箱属性，就没有这个问题了，只要用户名还没激活，用户可以多次在本表单为用户名加上同样或不同的邮箱
+
+                    user = Utils.BaseMembershipProvider().CreateUser(txtUsername.Text, txtPassword.Text, null, null, null, false, null, out createStatus);
 
                     if (createStatus != MembershipCreateStatus.Success)
                     {
@@ -125,82 +63,10 @@ namespace Sharepoint.FormsBasedAuthentication
                     }
 
 
-                    //bool groupAdded = false;
-
-                    //if (_showRoles)
-                    //{
-                    //    for (int i = 0; i < rolesList.Items.Count; i++)
-                    //    {
-                    //        if (rolesList.Items[i].Selected)
-                    //        {
-                    //            Utils.BaseRoleProvider().AddUsersToRoles(new string[] {user.UserName}, new string[] {rolesList.Items[i].Value});
-                    Utils.BaseRoleProvider().AddUsersToRoles(new string[] { user.UserName }, new string[] { "Registered" });
-                    //        }
-                    //    }
-
-                    //    // add user to SharePoint whether a role was selected or not
-                    //    AddUserToSite(Utils.EncodeUsername(user.UserName), user.Email, txtFullName.Text);
-                    //}
-                    //else
-                    //{
-                    //    // add user to each group that was selected
-                    //    for (int i = 0; i < groupList.Items.Count; i++)
-                    //    {
-                    //        if (groupList.Items[i].Selected)
-                    //        {
-                    //            // add user to group
-                    //            SPGroup group = this.Web.SiteGroups[groupList.Items[i].Value];
-                    //            group.AddUser(
-                    //                Utils.EncodeUsername(user.UserName),
-                    //                user.Email,
-                    //                txtFullName.Text,
-                    //                "");
-
-                    //            // update
-                    //            group.Update();
-                    //            groupAdded = true;
-                    //        }
-                    //    }
-
-                    //    // if no group selected, add to site with no permissions
-                    //    if (!groupAdded)
-                    //    {
-                    //        AddUserToSite(Utils.EncodeUsername(user.UserName), user.Email, txtFullName.Text);
-                    //    }
-                    //}
-
-                    // Email User
-                    //if ((emailUser.Checked == true))
-                    //{
-                    //InputFormTextBox txtEmailSubject = (InputFormTextBox)emailUser.FindControl("txtEmailSubject");
-                    //InputFormTextBox txtEmailBody = (InputFormTextBox)emailUser.FindControl("txtEmailBody");
-                    //    if ((!string.IsNullOrEmpty(txtEmailSubject.Text)) && (!string.IsNullOrEmpty(txtEmailBody.Text)))
-
+                    //Utils.BaseRoleProvider().AddUsersToRoles(new string[] { user.UserName }, new string[] { "Registered" });
+                    //不能这个时候加Role，应该是在邮件激活后加入一个EmailValidated Role
+                    SendActivationEmailAndRedirect(user, txtEmail.Text.Trim().ToLower());
                     
-
-                    string linkExpireTime = DateTime.UtcNow.AddMinutes(30).Ticks.ToString();
-                    string token = string.Concat(user.UserName.ToLower(), user.Email.ToLower(), MyCustomMessageHandler.SecretGuid, linkExpireTime).GetHashCode().ToString();
-
-                    string SignInUrl = Encoding.Default.GetString(Convert.FromBase64String(Request.QueryString["SignInUrl"]));
-
-                    string activationLink = SPUtility.ConcatUrls(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority), string.Concat("/_layouts/FBA/UserActivate.aspx?USERNAME=", user.UserName, "&token=", token, "&linkExpireTime=", linkExpireTime, "&Source=", System.Uri.EscapeDataString(SignInUrl)));
-                    Email.SendEmail(this.Web, user.Email, LocalizedString.GetGlobalString("MyResource", "activateYourAccount"), activationLink);
-                    //}
-
-                    string source = Request.QueryString["source"];
-                    if (string.IsNullOrEmpty(source))
-                    {
-                        //FBADiagnosticsService.Local.WriteTrace(0, FBADiagnosticsService.FBADiagnosticsCategory.General, Microsoft.SharePoint.Administration.TraceSeverity.High, string.Concat("Activate Email sent to ", user.Email, ". Url:", activationLink));
-                        
-                        //SPUtility.Redirect("FBA/Management/UsersDisp.aspx", SPRedirectFlags.RelativeToLayoutsPage | SPRedirectFlags.UseSource | SPRedirectFlags.DoNotEndResponse, this.Context);
-                        MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.General, Microsoft.SharePoint.Administration.TraceSeverity.Verbose, string.Concat("RedirectTo:", SignInUrl));
-                        SPUtility.Redirect(SignInUrl, SPRedirectFlags.DoNotEndResponse, this.Context);
-                    }
-                    else
-                    {
-                        MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.General, Microsoft.SharePoint.Administration.TraceSeverity.Verbose, string.Concat("RedirectTo:", source));
-                        SPUtility.Redirect(Request.RawUrl, SPRedirectFlags.UseSource | SPRedirectFlags.DoNotEndResponse, this.Context);
-                    }
 
                 }
                 catch (Exception ex)
@@ -208,11 +74,44 @@ namespace Sharepoint.FormsBasedAuthentication
                     Utils.LogError(ex, true);
                 }
             }
+            else if (!string.IsNullOrEmpty(user.Email) && user.IsApproved)
+            {
+                lblMessage.Text = LocalizedString.GetGlobalString("MyResource", "DuplicateUserNameWithEmail"); ;
+            }
             else
             {
-                lblMessage.Text = LocalizedString.GetGlobalString("FBAPackWebPages", "DuplicateUserName"); ;
+                //绑定邮箱到Weixin自动生成的账户
+                SendActivationEmailAndRedirect(user, txtEmail.Text.Trim().ToLower());
             }
         }
+
+        private void SendActivationEmailAndRedirect(MembershipUser user, string emailInLower)
+        {
+            string linkExpireTime = DateTime.UtcNow.AddMinutes(30).Ticks.ToString();
+            //string token = string.Concat(user.UserName.ToLower(), user.Email.ToLower(), MyCustomMessageHandler.SecretGuid, linkExpireTime).GetHashCode().ToString();
+            string token = string.Concat(user.UserName.ToLower(), emailInLower, MyCustomMessageHandler.SecretGuid, linkExpireTime).GetHashCode().ToString();
+
+            string SignInUrl = Encoding.Default.GetString(Convert.FromBase64String(Request.QueryString["SignInUrl"]));
+
+            string activationLink = SPUtility.ConcatUrls(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority), string.Concat("/_layouts/FBA/UserActivate.aspx?USERNAME=", user.UserName, "&email=", emailInLower, "&token=", token, "&linkExpireTime=", linkExpireTime, "&Source=", System.Uri.EscapeDataString(SignInUrl)));
+            Email.SendEmail(this.Web, emailInLower, LocalizedString.GetGlobalString("MyResource", "activateYourAccount"), activationLink);
+
+            string source = Request.QueryString["source"];
+            if (string.IsNullOrEmpty(source))
+            {
+                //FBADiagnosticsService.Local.WriteTrace(0, FBADiagnosticsService.FBADiagnosticsCategory.General, Microsoft.SharePoint.Administration.TraceSeverity.High, string.Concat("Activate Email sent to ", user.Email, ". Url:", activationLink));
+
+                //SPUtility.Redirect("FBA/Management/UsersDisp.aspx", SPRedirectFlags.RelativeToLayoutsPage | SPRedirectFlags.UseSource | SPRedirectFlags.DoNotEndResponse, this.Context);
+                MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.General, Microsoft.SharePoint.Administration.TraceSeverity.Verbose, string.Concat("RedirectTo:", SignInUrl));
+                SPUtility.Redirect(SignInUrl, SPRedirectFlags.DoNotEndResponse, this.Context);
+            }
+            else
+            {
+                MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.General, Microsoft.SharePoint.Administration.TraceSeverity.Verbose, string.Concat("RedirectTo:", source));
+                SPUtility.Redirect(Request.RawUrl, SPRedirectFlags.UseSource | SPRedirectFlags.DoNotEndResponse, this.Context);
+            }
+        }
+
 
         protected void SetErrorMessage(MembershipCreateStatus status)
         {

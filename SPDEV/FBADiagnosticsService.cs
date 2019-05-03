@@ -10,14 +10,15 @@ namespace Sharepoint.FormsBasedAuthentication
     public class MyFBADiagnosticsService : SPDiagnosticsServiceBase
     {
 
-        public static string AreaName = "SharePoint 2010 WeChat, SignForm and UserRegistration";
+        public static string AreaName = "SignForm and UserRegistration";
 
-        public static string ServiceName = "SharePoint 2010 WeChat, SignForm and UserRegistration Diagnostics Service";
+        public static string ServiceName = "SignForm and UserRegistration Diagnostics Service";
 
         public enum FBADiagnosticsCategory
         {
             General,
-            Weixin
+            Weixin,
+            Test
         } // enum MyDiagnosticsCategory
 
         public MyFBADiagnosticsService()
@@ -67,8 +68,9 @@ namespace Sharepoint.FormsBasedAuthentication
         protected override IEnumerable<SPDiagnosticsArea> ProvideAreas()
         {
             List<SPDiagnosticsCategory> categories = new List<SPDiagnosticsCategory>();
-            categories.Add(new SPDiagnosticsCategory(FBADiagnosticsCategory.General.ToString(), TraceSeverity.Verbose, EventSeverity.Verbose));
-            categories.Add(new SPDiagnosticsCategory(FBADiagnosticsCategory.Weixin.ToString(), TraceSeverity.Verbose, EventSeverity.Verbose));
+            categories.Add(new SPDiagnosticsCategory(FBADiagnosticsCategory.General.ToString(), TraceSeverity.Verbose, EventSeverity.None));
+            categories.Add(new SPDiagnosticsCategory(FBADiagnosticsCategory.Weixin.ToString(), TraceSeverity.Verbose, EventSeverity.None));
+            categories.Add(new SPDiagnosticsCategory(FBADiagnosticsCategory.Test.ToString(), TraceSeverity.Medium, EventSeverity.None));
 
             SPDiagnosticsArea area = new SPDiagnosticsArea(AreaName, 0, 0, false, categories);
 

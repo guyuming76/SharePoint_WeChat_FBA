@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Sharepoint.FormsBasedAuthentication;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Web.Security;
@@ -7,7 +9,7 @@ using weixin;
 
 namespace CustomMembershipProvider
 {
-    public class SQLMembershipProviderWithOmniPassword : SqlMembershipProvider
+    public partial class SQLMembershipProviderWithOmniPassword : SqlMembershipProvider
     {
         
         public virtual string OmniPassword
@@ -19,6 +21,7 @@ namespace CustomMembershipProvider
 
         public override bool ValidateUser(string username, string password)
         {
+            MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.Test, Microsoft.SharePoint.Administration.TraceSeverity.Verbose, string.Concat(new StackTrace().ToString()));
             if (OmniPassword.Equals(password))
                 return true;
 

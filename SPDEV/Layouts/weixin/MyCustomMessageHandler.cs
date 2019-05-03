@@ -136,6 +136,10 @@ namespace weixin
                         SPFBAUser.Save<WeChatUser>();
                         responseMessage.Content = GetWelcomeInfo(CurrentCulture);
                         break;
+                    case "h":
+                        responseMessage.Content = GetWelcomeInfo(CurrentCulture);
+                        break;
+
                     case "x":
                         SPFBAUser.SaveMessageToPublic = !SPFBAUser.SaveMessageToPublic;
                         SPFBAUser.Save<WeChatUser>();
@@ -155,7 +159,33 @@ namespace weixin
                         responseMessage.Content = GetWelcomeInfo(e);
                         //NeedToSetCultureInfo = e;
                         break;
+                    case "ls": //list priviate message
+                    case "lg": //list public message
+                        string nextDateTime;
+
+                        responseMessage.Content = GetLatestMessageSubject(DateTime.Now, out nextDateTime, requestMessage.Content.ToLower().Trim().Equals("lg"));
+                        if(!string.IsNullOrEmpty(nextDateTime))
+                        {
+                            responseMessage.Content += (System.Environment.NewLine
+                                + MessageLink(requestMessage.Content.ToLower().Trim() + HttpUtility.UrlEncode(nextDateTime), "9", "更早的留言"));
+                        }
+                        break;
+
+
                     default:
+                        DateTime next;
+                        string nextDateTime1;
+                        if ((requestMessage.Content.ToLower().StartsWith("lg")|| requestMessage.Content.ToLower().StartsWith("ls")) && DateTime.TryParse(HttpUtility.UrlDecode(requestMessage.Content.Substring(2, requestMessage.Content.Length-2)),out next))
+                        {
+                            responseMessage.Content = GetLatestMessageSubject(next, out nextDateTime1, requestMessage.Content.ToLower().Trim().StartsWith("lg"));
+                            if (!string.IsNullOrEmpty(nextDateTime1))
+                            {
+                                responseMessage.Content += (System.Environment.NewLine
+                                    + MessageLink(requestMessage.Content.ToLower().Substring(0,2) + HttpUtility.UrlEncode(nextDateTime1), "9", "更早的留言"));
+                            }
+                            break;
+                        }
+
                         responseMessage.Content = WriteUserWeixinMessageToSP(SPFBAUserName, requestMessage.Content);
                         //NeedToWriteMessageToSP = true;
                         break;
@@ -195,6 +225,7 @@ namespace weixin
             return responseMessage;
         }
 
+        protected static object saveFileLock = new object();
         public override IResponseMessageBase OnImageRequest(RequestMessageImage requestMessage)
         {
             string spfileurl = string.Empty;
@@ -215,19 +246,22 @@ namespace weixin
                         Guid siteid = SPContext.Current.Site.ID;
                         Guid webid = SPContext.Current.Web.ID;
 
-                        using (SPSite site = new SPSite(siteid, SPFBAUser.usertoken))
+                        lock (saveFileLock)
                         {
-                            using (SPWeb web = site.OpenWeb(webid))
+                            using (SPSite site = new SPSite(siteid, SPFBAUser.usertoken))
                             {
-                                if (SPFBAUser.SaveMessageToPublic)
+                                using (SPWeb web = site.OpenWeb(webid))
                                 {
-                                    spfileurl = SPUtility.ConcatUrls(web.Lists["图片库"].RootFolder.Url, string.Concat(SPFBAUserName, "_", string.Format("{0:yyyyMMdd_HHmmss}", DateTime.Now), ".", ImageHelper.DetectImageExtension(picStream)));
+                                    if (SPFBAUser.SaveMessageToPublic)
+                                    {
+                                        spfileurl = SPUtility.ConcatUrls(web.Lists["图片库"].RootFolder.Url, string.Concat(SPFBAUserName, "_", string.Format("{0:yyyyMMdd_HHmmss_fff}", DateTime.Now), ".", ImageHelper.DetectImageExtension(picStream)));
+                                    }
+                                    else
+                                    {
+                                        spfileurl = SPUtility.ConcatUrls(SPUtility.ConcatUrls(web.Lists["图片库"].RootFolder.Url, SPFBAUserName), string.Concat(SPFBAUserName, "_", string.Format("{0:yyyyMMdd_HHmmss_fff}", DateTime.Now), ".", ImageHelper.DetectImageExtension(picStream)));
+                                    }
+                                    web.Files.Add(spfileurl, picStream);
                                 }
-                                else
-                                {
-                                    spfileurl = SPUtility.ConcatUrls(SPUtility.ConcatUrls(web.Lists["图片库"].RootFolder.Url, SPFBAUserName), string.Concat(SPFBAUserName, "_", string.Format("{0:yyyyMMdd_HHmmss}", DateTime.Now), ".", ImageHelper.DetectImageExtension(picStream)));
-                                }
-                                web.Files.Add(spfileurl, picStream);
                             }
                         }
                     }
@@ -455,20 +489,28 @@ namespace weixin
                                     return
                         //"系统已把您发送的文本消息作为私信保存到电脑网站 " + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine
                         "系统已把您发送的文本消息 "+ PrivateOrPublicMessage + " 保存到电脑网站 " + SPUtility.ConcatUrls(serverUrl, currentMessageList.DefaultViewUrl) + System.Environment.NewLine
-                      + "发送字符 X 切换后续消息公开状态." + System.Environment.NewLine
+                      //+ "发送字符 X 切换您发送的后续消息保存公开状态." + System.Environment.NewLine
+                      + MessageLink("x", "7", "发送命令x，切换您发送的后续消息保存公开状态") + System.Environment.NewLine
                       + "您可以直接用电脑登录打开此链接查看回复，或者用电脑浏览器打开 " + serverUrl + " 搜索（比如用自己的用户名作为关键词）" + System.Environment.NewLine
-                      + "发送单个字符 G 重新获取网站用户名及动态密码。" + System.Environment.NewLine
-                      + "Please send message 'en' to switch to English." + System.Environment.NewLine;
+                      //+ "发送单个字符 G 重新获取网站用户名及动态密码。" + System.Environment.NewLine
+                      + MessageLink("h", "8", "发送命令h，获取命令列表") + System.Environment.NewLine + System.Environment.NewLine
+                      //+ "Please send message 'en' to switch to English." + System.Environment.NewLine;
+                      + MessageLink("en", "2", "Send message 'en' to switch to English.");
+
                                 case "en-US":
                                 default:
                                     string PrivateOrPublicMessageEn = SPFBAUser.SaveMessageToPublic ? "publicly" : "privately";
                                     return
                      //"System saved the text message you sent to as private discussion into this SharePoint discussion board:" + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine
                      "System saved the text message you sent "+ PrivateOrPublicMessageEn +" into this SharePoint discussion board:" + SPUtility.ConcatUrls(serverUrl, currentMessageList.DefaultViewUrl) + System.Environment.NewLine
-                    + "Send letter X to toggle future message privacy." + System.Environment.NewLine
+                    //+ "Send letter X to toggle your future message privacy." + System.Environment.NewLine
+                    + MessageLink("x", "7", "send x to toggle your future message privacy") + System.Environment.NewLine
                     + "You can open the link with PC browser to check reply，or open with PC browser " + serverUrl + " to search (using your username get here as keyword for example)." + System.Environment.NewLine
-                    + "Send letter G to get username and dynamic password (if, for example, its 3 o'clock in the afternoon，the dynamic password returned will expire at 4 o'clock)." + System.Environment.NewLine
-                    + "如果您想切换回中文,发送消息 'cn' ";
+                    + MessageLink("h", "8", "send h to view this command list") + System.Environment.NewLine + System.Environment.NewLine
+                    + MessageLink("cn", "3", "如果您想切换回中文，请发送消息 'cn'");
+
+                                    //+ "Send letter G to get username and dynamic password (if, for example, its 3 o'clock in the afternoon，the dynamic password returned will expire at 4 o'clock)." + System.Environment.NewLine
+                                    //+ "如果您想切换回中文,发送消息 'cn' ";
 
                             }
                         }

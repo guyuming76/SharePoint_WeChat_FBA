@@ -78,6 +78,12 @@
     <Compile Include="helpers\MemebershipRoleProviderHelper.cs" />
     <Compile Include="helpers\SPDPAPI.cs" />
     <Compile Include="helpers\SPHelper.cs" />
+    <Compile Include="Layouts\ClaimViewer.aspx.cs">
+      <DependentUpon>ClaimViewer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\ClaimViewer.aspx.designer.cs">
+      <DependentUpon>ClaimViewer.aspx.cs</DependentUpon>
+    </Compile>
     <Compile Include="Layouts\FBA\ChangePassword.aspx.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -135,6 +141,7 @@
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_MessageText.cs" />
     <Compile Include="helpers\SPUserNotesEx.cs" />
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_ElevatedPriviliage.cs" />
+    <Compile Include="Layouts\weixin\MyCustomMessageHandler_List.cs" />
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_Save.cs" />
     <Compile Include="Layouts\weixin\WeChatException.cs" />
     <Compile Include="Layouts\weixin\WeChatUser.cs" />
@@ -144,6 +151,9 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClaimsViewerCustomAction\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{c1359f8b-444e-4743-a588-3523cdf3a4e1}</SharePointProjectItemId>
+    </None>
     <None Include="deploy.ps1" />
     <None Include="FBASiteConfigurationCustomAction\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{e7bd0a6f-2b37-4d1e-8629-04cac64022e4}</SharePointProjectItemId>
@@ -175,6 +185,7 @@
     <EmbeddedResource Include="ResourcesAppGlobal\MyResource.zh-cn.resx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClaimsViewerCustomAction\Elements.xml" />
     <Content Include="FBASiteConfigurationCustomAction\Elements.xml" />
     <Content Include="Features\DiagnosticsService\DiagnosticsService.Template.xml">
       <DependentUpon>DiagnosticsService.feature</DependentUpon>
@@ -182,6 +193,7 @@
     <Content Include="Features\WeChat Public Account\WeChat Public Account.Template.xml">
       <DependentUpon>WeChat Public Account.feature</DependentUpon>
     </Content>
+    <Content Include="Layouts\ClaimViewer.aspx" />
     <Content Include="Layouts\FBA\ChangePassword.aspx" />
     <Content Include="Layouts\FBA\FBASiteConfiguration.aspx" />
     <Content Include="Layouts\FBA\GetBackAccountsByEmail.aspx" />

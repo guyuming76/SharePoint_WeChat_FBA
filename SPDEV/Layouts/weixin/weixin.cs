@@ -27,6 +27,18 @@ namespace weixin
             set
             {
                 SPWeb w = SPContext.Current.Web;
+                
+                //加入Role
+                if (!Utils.BaseRoleProvider().RoleExists(value))
+                {
+                    Utils.BaseRoleProvider().CreateRole(value);
+                }
+
+                if (!Utils.BaseRoleProvider().RoleExists("WeChat"))
+                {
+                    Utils.BaseRoleProvider().CreateRole("WeChat");
+                }
+
                 SPHelper.SetSPWebProperty(w, "WeChatPublicAccountNameAndFBARole", value);
             }
 

@@ -127,7 +127,7 @@
     <value>链接里Token参数无效，无法激活账户</value>
   </data>
   <data name="RegisterNewUser" xml:space="preserve">
-    <value>使用邮箱注册新用户（或为现有用户绑定邮箱）</value>
+    <value>使用邮箱注册新用户（或为现有用户绑定新邮箱）</value>
   </data>
   <data name="IForgetMyPassword" xml:space="preserve">
     <value>使用邮箱找回用户名重置密码</value>
@@ -185,5 +185,8 @@
   </data>
   <data name="DuplicateUserNameWithEmail" xml:space="preserve">
     <value>存在已验证邮箱的同名用户</value>
+  </data>
+  <data name="PasswordIncorrect" xml:space="preserve">
+    <value>用户名已存在，但密码不正确</value>
   </data>
 </root>

@@ -46,7 +46,7 @@ namespace Sharepoint.FormsBasedAuthentication
                     //这里不应该写入邮箱，邮箱应该在激活成功后更新进去
                     //如果激活邮件用户没收到，之前的设计是希望用户使用通过邮件找回账号的方式重置密码，同时激活账号
                     //但没考到到如果之前输入了错误的邮箱号，或者这个邮箱本身打不开了怎么办，这样这个用户名就“死”了
-                    //现在改成在激活后写入邮箱属性，就没有这个问题了，只要用户名还没激活，用户可以多次在本表单为用户名加上同样或不同的邮箱
+                    //现在改成在激活后写入邮箱属性，就没有这个问题
 
                     user = Utils.BaseMembershipProvider().CreateUser(txtUsername.Text, txtPassword.Text, null, null, null, false, null, out createStatus);
 
@@ -74,14 +74,24 @@ namespace Sharepoint.FormsBasedAuthentication
                     Utils.LogError(ex, true);
                 }
             }
-            else if (!string.IsNullOrEmpty(user.Email) && user.IsApproved)
-            {
-                lblMessage.Text = LocalizedString.GetGlobalString("MyResource", "DuplicateUserNameWithEmail"); ;
-            }
+            //else if (!string.IsNullOrEmpty(user.Email) && user.IsApproved)
+            //{
+            //    lblMessage.Text = LocalizedString.GetGlobalString("MyResource", "DuplicateUserNameWithEmail"); ;
+            //}
             else
             {
-                //绑定邮箱到Weixin自动生成的账户
-                SendActivationEmailAndRedirect(user, txtEmail.Text.Trim().ToLower());
+                //这里 还得先验证下用户名密码
+                if (Utils.BaseMembershipProvider().ValidateUser(txtUsername.Text, txtPassword.Text))
+                {
+                    //绑定邮箱到Weixin自动生成的账户
+                    SendActivationEmailAndRedirect(user, txtEmail.Text.Trim().ToLower());
+                }
+                else
+                {
+                    lblMessage.Text = LocalizedString.GetGlobalString("MyResource", "PasswordIncorrect");
+                    
+                }
+
             }
         }
 

@@ -73,6 +73,7 @@ namespace Sharepoint.FormsBasedAuthentication
                         user.Email = emailInLower;
                         user.IsApproved = true;
                         Utils.BaseMembershipProvider().UpdateUser(user);
+                        //TODO:这里还要加个WorkItemTimerJob, 用来同步membership Email 变化到SharePoint UserInfoList
 
                         //SPUtility.Redirect("FBA/Management/UsersDisp.aspx", SPRedirectFlags.RelativeToLayoutsPage | SPRedirectFlags.UseSource | SPRedirectFlags.DoNotEndResponse, this.Context);
                         //string SignInUrl = Encoding.Default.GetString(Convert.FromBase64String(Request.QueryString["SignInUrl"]));

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <CustomAction
+   Id="MyClaimViewer"
+   GroupId="SiteActions"
+   Location="Microsoft.SharePoint.StandardMenu"
+
+   Sequence="800"
+   Title="ClaimsViewer">
+    <UrlAction Url="/_layouts/claimviewer.aspx" />
+  </CustomAction>
+</Elements>

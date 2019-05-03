@@ -127,7 +127,7 @@
     <value>Invalid token in  Url query string for  account activation</value>
   </data>
   <data name="RegisterNewUser" xml:space="preserve">
-    <value>Register new user with Email (Or associate Email for existing user)</value>
+    <value>Register new user with Email (Or associate new Email for existing user)</value>
   </data>
   <data name="IForgetMyPassword" xml:space="preserve">
     <value>Get back accounts with Email and reset password</value>
@@ -185,5 +185,8 @@
   </data>
   <data name="DuplicateUserNameWithEmail" xml:space="preserve">
     <value>Username with validated email already exists</value>
+  </data>
+  <data name="PasswordIncorrect" xml:space="preserve">
+    <value>Password incorrect for existing user</value>
   </data>
 </root>

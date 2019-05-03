@@ -9,12 +9,12 @@ namespace weixin
 {
     public partial class MyCustomMessageHandler
     {
-        public string PublicMessageListUrl
+        public static  string PublicMessageListUrl
         {
             get { return SPUtility.ConcatUrls(SPContext.Current.Web.ServerRelativeUrl, "Lists/list"); }
         }
 
-        public string PrivateMessageListUrl
+        public static string PrivateMessageListUrl
         {
             get { return SPUtility.ConcatUrls(SPContext.Current.Web.ServerRelativeUrl, "lists/Private%20Message"); }
         }

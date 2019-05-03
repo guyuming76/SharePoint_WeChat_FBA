@@ -166,13 +166,14 @@ namespace weixin
                         //messageHandler.ResponseDocument.Save(
                         //    context.Server.MapPath("~/App_Data/" + DateTime.Now.Ticks + "_Response_" +
                         //                   messageHandler.ResponseMessage.ToUserName + ".txt"));
-                        if (messageHandler.SPFBAUser.Debug)
+
+                        if (messageHandler.ResponseMessage != null && messageHandler.SPFBAUser.Debug)
                         {
-                            string debug = string.Concat("start-end(mm:ss:ff): ", string.Format("{0:mm:ss:ff}", m.GetMonitor<SPExecutionTimeCounter>().StartTime), "-", string.Format("{0:mm:ss:ff}", m.GetMonitor<SPExecutionTimeCounter>().EndTime), ", duration(ms):", Math.Round(Double.Parse(m.GetMonitor<SPExecutionTimeCounter>().Value.ToString())));
+                            string debug = string.Concat("start-end(mm:ss:fff): ", string.Format("{0:mm:ss:fff}", m.GetMonitor<SPExecutionTimeCounter>().StartTime), "-", string.Format("{0:mm:ss:fff}", m.GetMonitor<SPExecutionTimeCounter>().EndTime), ", duration(ms):", Math.Round(Double.Parse(m.GetMonitor<SPExecutionTimeCounter>().Value.ToString())));
                             (messageHandler.ResponseMessage as ResponseMessageText).Content += string.Concat(System.Environment.NewLine, debug);
                         }
+                        if (messageHandler.ResponseDocument != null) context.Response.Output.Write(messageHandler.ResponseDocument.ToString());
 
-                        context.Response.Output.Write(messageHandler.ResponseDocument.ToString());
                         return;
                     }
                     catch (Exception ex)

@@ -151,6 +151,9 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AppearInWeChatSearch\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{b64952ba-a080-4bb5-a073-0da1b1e47517}</SharePointProjectItemId>
+    </None>
     <None Include="ClaimsViewerCustomAction\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{c1359f8b-444e-4743-a588-3523cdf3a4e1}</SharePointProjectItemId>
     </None>
@@ -178,6 +181,9 @@
     <None Include="ResourcesAppGlobal\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{6f5ae554-d340-4b0a-aca2-d25fe8e7d0f0}</SharePointProjectItemId>
     </None>
+    <None Include="WeChatPicUrl\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{483db961-bc18-438f-a3a8-485fc2b99295}</SharePointProjectItemId>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ResourcesAppGlobal\MyResource.en-us.resx" />
@@ -185,6 +191,7 @@
     <EmbeddedResource Include="ResourcesAppGlobal\MyResource.zh-cn.resx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AppearInWeChatSearch\Elements.xml" />
     <Content Include="ClaimsViewerCustomAction\Elements.xml" />
     <Content Include="FBASiteConfigurationCustomAction\Elements.xml" />
     <Content Include="Features\DiagnosticsService\DiagnosticsService.Template.xml">
@@ -208,6 +215,7 @@
     <Content Include="Layouts\weixin\WeChat100.png" />
     <Content Include="Layouts\weixin\WeChat200.png" />
     <Content Include="ResourcesAppGlobal\Elements.xml" />
+    <Content Include="WeChatPicUrl\Elements.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WeiXinMPSDK\Senparc.Weixin.MP.Sample\Senparc.Weixin.MP.Sample.CommonService\Senparc.Weixin.MP.Sample.CommonService.csproj">

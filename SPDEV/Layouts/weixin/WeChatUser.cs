@@ -27,6 +27,14 @@ namespace weixin
         [DataMember]
         public bool SaveImageToPublic;
 
+        [DataMember]
+        public string RecentSearchKeywords;
+
+        public string RecentSearchKeyword
+        {
+            get { return RecentSearchKeywords; }
+        }
+
         public CultureInfo Culture
         {
             get { return String.IsNullOrEmpty(CultureName) ? new CultureInfo("zh-CN") : new CultureInfo(CultureName); }

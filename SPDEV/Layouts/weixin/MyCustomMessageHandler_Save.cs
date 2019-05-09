@@ -24,5 +24,9 @@ namespace weixin
             get { return SPFBAUser.SaveMessageToPublic ? PublicMessageListUrl : PrivateMessageListUrl; }
         }
 
+        public static string ImageLibUrl
+        {
+            get { return SPUtility.ConcatUrls(SPContext.Current.Web.ServerRelativeUrl, "Images1"); }
+        }
     }
 }

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">  
+  <Field
+       ID="{007d0844-e777-4aab-8a95-57fc6a97e76a}"
+       Name="WeChatPicUrl60"
+       DisplayName="WechatPicUrl"
+       Type="Text"
+       Required="FALSE"
+       Group="Custom Site Columns"
+       ColName="nvarchar60"
+  >
+  </Field>
+  <Field
+     ID="{d77572e8-a82e-4727-9db5-132de8e5e13f}"
+     Name="Weixin61"
+     DisplayName="WechatPicUrlAtNvarchar61"
+     Type="Text"
+     Required="FALSE"
+     Group="Custom Site Columns"
+     ColName="nvarchar61"
+  >
+  </Field>
+</Elements>

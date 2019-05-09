@@ -14,6 +14,7 @@ using SharePoint.Helpers;
 using System.Collections.Generic;
 using Sharepoint.FormsBasedAuthentication;
 using SharePoint.Helper;
+using System.Collections;
 
 namespace weixin
 {
@@ -147,6 +148,13 @@ namespace weixin
                             string.Concat("后续消息将", SPFBAUser.SaveMessageToPublic ? "公开" : "私有", "保存") :
                             string.Concat("Future message will be saved ", SPFBAUser.SaveMessageToPublic ? "publicly" : "privately");
                         break;
+                    //TODO: 这个地方可以是 x 返回当前状态，让后 xx 更改，或者搞一个命令 q, 返回一系列的状态，然后有提示切换
+                    case "s":
+                        //按s 返回所有AppearInWeChat 的 WeChatResult Managed Property
+                        //然后， user property 里面可以保留一个 最后 搜索关键字
+                        //可以设置一个WeChat 常用搜索列表
+                        //点S进入搜索状态，在UserProperty 里面设置标记，返回常用搜索列表
+                        //如果用户没点常用搜索项，而是输入任意非命令？ 字符串，则返回搜索此字符串结果，并把此字符串存入 user property 最后搜索关键字
                     case "cn":
                         CultureInfo c = new CultureInfo("zh-CN");
                         CurrentCulture = c;
@@ -171,7 +179,12 @@ namespace weixin
                         }
                         break;
 
+                    //case "ps":
+                    //case "pg":
+                    //    var responseMessageNews = CreateResponseMessage<ResponseMessageNews>();
 
+                    //    return responseMessageNews;
+                    //    break;
                     default:
                         DateTime next;
                         string nextDateTime1;
@@ -260,7 +273,10 @@ namespace weixin
                                     {
                                         spfileurl = SPUtility.ConcatUrls(SPUtility.ConcatUrls(web.Lists["图片库"].RootFolder.Url, SPFBAUserName), string.Concat(SPFBAUserName, "_", string.Format("{0:yyyyMMdd_HHmmss_fff}", DateTime.Now), ".", ImageHelper.DetectImageExtension(picStream)));
                                     }
-                                    web.Files.Add(spfileurl, picStream);
+                                    Hashtable prop = new Hashtable();
+                                    prop.Add("WeChatMediaId", requestMessage.MediaId);
+                                    prop.Add("WeChatPicUrl", requestMessage.PicUrl);
+                                    web.Files.Add(spfileurl, picStream, prop);
                                 }
                             }
                         }

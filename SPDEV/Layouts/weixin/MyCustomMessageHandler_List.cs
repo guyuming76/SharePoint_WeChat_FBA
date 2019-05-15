@@ -110,16 +110,16 @@ namespace weixin
                         //query.Webs = "<Webs Scope=\"SiteCollection\"/>";
                         query.Lists = string.Concat("<Lists><List ID = '", web.GetList(publicmessage ? "/sites/public/lists/list/" : "/sites/public/lists/Private%20Message/").ID.ToString(), "' /><List ID = '", web.GetList("/sites/public/Images1/").ID.ToString(), "' /></Lists>");
                         query.ViewFields = @"<FieldRef Name=""Author"" Nullable=""TRUE"" /><FieldRef Name=""ItemChildCount"" Nullable=""TRUE"" /><FieldRef Name=""Modified""/><FieldRef Name=""Title"" Nullable=""TRUE"" />";
-                        query.ViewFields += @"<FieldRef Name=""WeChatPicUrl"" Nullable=""TRUE""/>";
+                        query.ViewFields += @"<FieldRef Name=""WeChat61"" Nullable=""TRUE""/>";
                         query.RowLimit = 5;
                         query.Query = "<OrderBy><FieldRef Name=\"Modified\" Ascending=\"FALSE\" /></OrderBy><Where>"
                               + "<And>"
                               + "<Or>"
                       //           + "<And><IsNotNull><FieldRef Name=\"WeChatPicUrl\" Nullable=\"TRUE\"/></IsNotNull>"
-                                     + "<IsNotNull><FieldRef Name=\"WeChatPicUrl\" Nullable=\"TRUE\"/></IsNotNull>"
-                                 //           + (publicmessage? string.Concat("<Eq>< FieldRef Name = \"FileDirRef\" ></FieldRef ><Value Type = \"Text\" >",ImageLibUrl,"</Value></Eq>"): string.Concat("<Contains>< FieldRef Name = \"FileDirRef\" ></FieldRef ><Value Type = \"Text\" >", SPFBAUserName, "</Value><Contains>"))
-                                 //              + (publicmessage ? string.Concat("<Eq><FieldRef Name = \"FileDirRef\" /><Value Type = \"Text\" >", "/sites/public/Images1/", "</Value></Eq>") : string.Concat("<Contains>< FieldRef Name = \"FileDirRef\" /><Value Type = \"Text\" >", "233173287", "</Value></Contains>"))
-                                 //            + "</And>"
+                                     + "<IsNotNull><FieldRef Name=\"WeChat61\" Nullable=\"TRUE\"/></IsNotNull>"
+                                    //           + (publicmessage? string.Concat("<Eq>< FieldRef Name = \"FileDirRef\" ></FieldRef ><Value Type = \"Text\" >",ImageLibUrl,"</Value></Eq>"): string.Concat("<Contains>< FieldRef Name = \"FileDirRef\" ></FieldRef ><Value Type = \"Text\" >", SPFBAUserName, "</Value><Contains>"))
+                                    //              + (publicmessage ? string.Concat("<Eq><FieldRef Name = \"FileDirRef\" /><Value Type = \"Text\" >", "/sites/public/Images1/", "</Value></Eq>") : string.Concat("<Contains>< FieldRef Name = \"FileDirRef\" /><Value Type = \"Text\" >", "233173287", "</Value></Contains>"))
+                                    //            + "</And>"
                                     + "<BeginsWith><FieldRef Name = \"ContentTypeId\" /><Value Type = \"ContentTypeId\" >0x012002</Value></BeginsWith>"
                               + "</Or>"
                                 + "<Lt><FieldRef Name='Created'/><Value IncludeTimeValue ='TRUE' Type ='DateTime'>"
@@ -160,7 +160,7 @@ namespace weixin
                                 //string u = au == null ? string.Empty
                                 //    : (au.User == null ? string.Empty : au.User.Name);
 
-                                if (item["WeChatPicUrl"] == null)
+                                if (item["WeChat61"] == null)
                                 {
                                     ret.AppendLine(string.Concat("主题:", item["Title"]));
                                     ret.AppendLine(string.Concat("作者:", author));
@@ -171,7 +171,7 @@ namespace weixin
                                 {
                                     ret.AppendLine(string.Concat("作者:", author));
                                     ret.AppendLine(string.Concat("修改时间", item["Modified"].ToString()));
-                                    ret.AppendLine(string.Concat("PicUrl", item["WeChatPicUrl"].ToString()));
+                                    ret.AppendLine(string.Concat("PicUrl", item["WeChat61"].ToString()));
                                 }
                                 ret.AppendLine();
                                 lastTime = item["Modified"].ToString();

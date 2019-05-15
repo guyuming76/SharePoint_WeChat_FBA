@@ -4,7 +4,7 @@
        ID="{3bab17fc-f32d-432c-9bb7-6776649ffc67}"
        Name="AppearInWeChatSearch"
        DisplayName="AppearInWeChatSearch"
-       Type="Text"
+       Type="Boolean"
        Required="FALSE"
        Group="Custom Site Columns">
   </Field>

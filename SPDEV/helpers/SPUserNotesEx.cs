@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace SharePoint.Helper
+namespace SharePoint.Helpers
 {
     [DataContract]
     public class SPUserNotesEx

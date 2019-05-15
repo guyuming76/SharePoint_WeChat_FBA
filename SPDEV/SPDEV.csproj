@@ -45,10 +45,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.IdentityModel\3.5.0.0__31bf3856ad364e35\Microsoft.IdentityModel.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Server, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Server.Search, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=AMD64" />
     <Reference Include="Microsoft.SharePoint.IdentityModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.SharePoint.IdentityModel\14.0.0.0__71e9bce111e9429c\Microsoft.SharePoint.IdentityModel.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.SharePoint.Search, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=AMD64" />
     <Reference Include="Microsoft.SharePoint.Security, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -83,6 +86,13 @@
     </Compile>
     <Compile Include="Layouts\ClaimViewer.aspx.designer.cs">
       <DependentUpon>ClaimViewer.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\custPages\testMPfromWeChat1.aspx.cs">
+      <DependentUpon>testMPfromWeChat1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\custPages\testMPfromWeChat1.aspx.designer.cs">
+      <DependentUpon>testMPfromWeChat1.aspx.cs</DependentUpon>
     </Compile>
     <Compile Include="Layouts\FBA\ChangePassword.aspx.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
@@ -137,11 +147,15 @@
     <Compile Include="Layouts\FBA\UserResetPasswordWithToken.aspx.designer.cs">
       <DependentUpon>UserResetPasswordWithToken.aspx.cs</DependentUpon>
     </Compile>
+    <Compile Include="Layouts\WeChatSignInPageBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Layouts\weixin\MyCustomMessageHandler.cs" />
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_MessageText.cs" />
     <Compile Include="helpers\SPUserNotesEx.cs" />
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_ElevatedPriviliage.cs" />
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_List.cs" />
+    <Compile Include="Layouts\weixin\MyCustomMessageHandler_Search.cs" />
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_Save.cs" />
     <Compile Include="Layouts\weixin\WeChatException.cs" />
     <Compile Include="Layouts\weixin\WeChatUser.cs" />
@@ -201,6 +215,7 @@
       <DependentUpon>WeChat Public Account.feature</DependentUpon>
     </Content>
     <Content Include="Layouts\ClaimViewer.aspx" />
+    <Content Include="Layouts\custPages\testMPfromWeChat1.aspx" />
     <Content Include="Layouts\FBA\ChangePassword.aspx" />
     <Content Include="Layouts\FBA\FBASiteConfiguration.aspx" />
     <Content Include="Layouts\FBA\GetBackAccountsByEmail.aspx" />
@@ -215,7 +230,9 @@
     <Content Include="Layouts\weixin\WeChat100.png" />
     <Content Include="Layouts\weixin\WeChat200.png" />
     <Content Include="ResourcesAppGlobal\Elements.xml" />
-    <Content Include="WeChatPicUrl\Elements.xml" />
+    <Content Include="WeChatPicUrl\Elements.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WeiXinMPSDK\Senparc.Weixin.MP.Sample\Senparc.Weixin.MP.Sample.CommonService\Senparc.Weixin.MP.Sample.CommonService.csproj">

@@ -13,7 +13,6 @@ using System.Web.Security;
 using SharePoint.Helpers;
 using System.Collections.Generic;
 using Sharepoint.FormsBasedAuthentication;
-using SharePoint.Helper;
 using System.Collections;
 
 namespace weixin

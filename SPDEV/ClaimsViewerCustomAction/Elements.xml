@@ -2,9 +2,8 @@
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
   <CustomAction
    Id="MyClaimViewer"
-   GroupId="SiteActions"
+   GroupId="PersonalActions"
    Location="Microsoft.SharePoint.StandardMenu"
-
    Sequence="800"
    Title="ClaimsViewer">
     <UrlAction Url="/_layouts/claimviewer.aspx" />

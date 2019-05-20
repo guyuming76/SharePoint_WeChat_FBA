@@ -5,12 +5,12 @@
 <%@ Register Tagprefix="asp" Namespace="System.Web.UI" Assembly="System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" %>
 <%@ Import Namespace="Microsoft.SharePoint" %>
 <%@ Assembly Name="Microsoft.Web.CommandUI, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="testMPfromWeChat1.aspx.cs" Inherits="weixin.custPages.testMPfromWeChat1" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WeChatSignIn.aspx.cs" Inherits="weixin.WeChatSignIn" DynamicMasterPageFile="~masterurl/custom.master" %>
 
 
-test
 
-<%--<asp:Content ID="PageHead" ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
+
+<asp:Content ID="PageHead" ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
 
 </asp:Content>
 
@@ -18,10 +18,11 @@ test
 
 </asp:Content>
 
+
 <asp:Content ID="PageTitle" ContentPlaceHolderID="PlaceHolderPageTitle" runat="server">
-应用程序页
+微信首页
 </asp:Content>
 
 <asp:Content ID="PageTitleInTitleArea" ContentPlaceHolderID="PlaceHolderPageTitleInTitleArea" runat="server" >
-我的应用程序页
-</asp:Content>--%>
+微信首页
+</asp:Content>

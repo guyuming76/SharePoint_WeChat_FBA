@@ -87,12 +87,19 @@
     <Compile Include="Layouts\ClaimViewer.aspx.designer.cs">
       <DependentUpon>ClaimViewer.aspx.cs</DependentUpon>
     </Compile>
-    <Compile Include="Layouts\custPages\testMPfromWeChat1.aspx.cs">
-      <DependentUpon>testMPfromWeChat1.aspx</DependentUpon>
+    <Compile Include="Layouts\custPages\ApplicationPage1.aspx.cs">
+      <DependentUpon>ApplicationPage1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Layouts\custPages\testMPfromWeChat1.aspx.designer.cs">
-      <DependentUpon>testMPfromWeChat1.aspx.cs</DependentUpon>
+    <Compile Include="Layouts\custPages\ApplicationPage1.aspx.designer.cs">
+      <DependentUpon>ApplicationPage1.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\FBA\WeChatSignIn.aspx.cs">
+      <DependentUpon>WeChatSignIn.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\FBA\WeChatSignIn.aspx.designer.cs">
+      <DependentUpon>WeChatSignIn.aspx.cs</DependentUpon>
     </Compile>
     <Compile Include="Layouts\FBA\ChangePassword.aspx.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
@@ -157,6 +164,7 @@
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_List.cs" />
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_Search.cs" />
     <Compile Include="Layouts\weixin\MyCustomMessageHandler_Save.cs" />
+    <Compile Include="Layouts\weixin\test.cs" />
     <Compile Include="Layouts\weixin\WeChatException.cs" />
     <Compile Include="Layouts\weixin\WeChatUser.cs" />
     <Compile Include="Layouts\weixin\weixin.cs" />
@@ -185,6 +193,7 @@
     <None Include="Layouts\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{5b3483ff-1ee2-4bfa-929c-82f893966021}</SharePointProjectItemId>
     </None>
+    <None Include="Layouts\weixin\test.ashx" />
     <None Include="Layouts\weixin\weixin.ashx" />
     <None Include="Package\Package.package">
       <PackageId>{ed18d00f-da2b-4d91-85d4-615c3df84358}</PackageId>
@@ -215,7 +224,8 @@
       <DependentUpon>WeChat Public Account.feature</DependentUpon>
     </Content>
     <Content Include="Layouts\ClaimViewer.aspx" />
-    <Content Include="Layouts\custPages\testMPfromWeChat1.aspx" />
+    <Content Include="Layouts\custPages\ApplicationPage1.aspx" />
+    <Content Include="Layouts\FBA\WeChatSignIn.aspx" />
     <Content Include="Layouts\FBA\ChangePassword.aspx" />
     <Content Include="Layouts\FBA\FBASiteConfiguration.aspx" />
     <Content Include="Layouts\FBA\GetBackAccountsByEmail.aspx" />
@@ -227,6 +237,8 @@
     <Content Include="Layouts\FBA\UserActivate.aspx" />
     <Content Include="Layouts\FBA\UserRegister.aspx" />
     <Content Include="Layouts\FBA\UserResetPasswordWithToken.aspx" />
+    <Content Include="Layouts\osssearchresults.aspx" />
+    <Content Include="Layouts\osssearchresultsBAK.aspx" />
     <Content Include="Layouts\weixin\WeChat100.png" />
     <Content Include="Layouts\weixin\WeChat200.png" />
     <Content Include="ResourcesAppGlobal\Elements.xml" />

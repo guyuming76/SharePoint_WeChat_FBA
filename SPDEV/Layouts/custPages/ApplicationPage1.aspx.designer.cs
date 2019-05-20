@@ -7,9 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace weixin.custPages {
+namespace SPDEV.Layouts.custPages {
     
     
-    public partial class testMPfromWeChat1 {
+    public partial class ApplicationPage1 {
     }
 }

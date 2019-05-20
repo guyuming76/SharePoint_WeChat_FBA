@@ -107,11 +107,28 @@ namespace weixin
             get { return System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority); }
         }
 
-        protected string SiteWelcomeUrl
+        protected string _siteWelcomeUrl;
+        protected string siteWelcomeUrl { get { if (string.IsNullOrEmpty(_siteWelcomeUrl)) _siteWelcomeUrl = SiteWelcomeUrl; return _siteWelcomeUrl; } }
+        public static string SiteWelcomeUrl
         {
-            //TODO:weixin 下面取WelcomeUrl 报ThreadAbort Exception 估计是没提权的原因，暂且Hardcode
-            //get { return SPUtility.GetFullUrl(SPContext.Current.Site, SPUtility.ConcatUrls(SPContext.Current.Site.RootWeb.ServerRelativeUrl,SPContext.Current.Site.RootWeb.RootFolder.WelcomePage)); }
-            get { return SPUtility.GetFullUrl(SPContext.Current.Site, SPUtility.ConcatUrls(SPContext.Current.Site.RootWeb.ServerRelativeUrl, "Lists/List/AllItems.aspx")); }
+            //weixin 下面取WelcomeUrl 报ThreadAbort Exception 估计是没提权的原因，暂且Hardcode
+            get
+            {
+                string ret = string.Empty;
+                SPSecurity.RunWithElevatedPrivileges(delegate () {
+                    //Guid siteid = SPContext.Current.Site.ID;
+                    //Guid webid = SPContext.Current.Web.ID;
+                    using (SPSite s = new SPSite(SPContext.Current.Web.Url))
+                    {
+                        using (SPWeb w = s.OpenWeb())
+                        {
+                            ret = SPUtility.GetFullUrl(s, SPUtility.ConcatUrls(w.ServerRelativeUrl, w.RootFolder.WelcomePage));
+                        }
+                    }
+                });
+                return ret;
+            }
+            //get { return SPUtility.GetFullUrl(SPContext.Current.Site, SPUtility.ConcatUrls(SPContext.Current.Site.RootWeb.ServerRelativeUrl, "Lists/List/AllItems.aspx")); }
         }
 
         protected HttpContext Ctx;
@@ -148,7 +165,7 @@ namespace weixin
                             string.Concat("Future message will be saved ", SPFBAUser.SaveMessageToPublic ? "publicly" : "privately");
                         break;
                     //TODO: 这个地方可以是 x 返回当前状态，让后 xx 更改，或者搞一个命令 q, 返回一系列的状态，然后有提示切换
-                    case "s":
+                    //case "s":
                         //按s 返回所有AppearInWeChat 的 WeChatResult Managed Property
                         //然后， user property 里面可以保留一个 最后 搜索关键字
                         //可以设置一个WeChat 常用搜索列表
@@ -293,8 +310,13 @@ namespace weixin
                 }
             }
 
-            responseMessage.Content = CurrentCulture.Name.Equals("zh-CN") ? string.Concat((SPFBAUser.SaveMessageToPublic?"公开":"私有"),"保存图片到服务器：",SPUtility.ConcatUrls(serverUrl,spfileurl))
-                : string.Concat("Image file saved to server ", (SPFBAUser.SaveMessageToPublic ? "publicly" : "privately"), ": ", SPUtility.ConcatUrls(serverUrl, spfileurl));
+            //responseMessage.Content = CurrentCulture.Name.Equals("zh-CN") ? string.Concat((SPFBAUser.SaveMessageToPublic?"公开":"私有"),"保存图片到服务器：",SPUtility.ConcatUrls(serverUrl,spfileurl))
+            //    : string.Concat("Image file saved to server ", (SPFBAUser.SaveMessageToPublic ? "publicly" : "privately"), ": ", SPUtility.ConcatUrls(serverUrl, spfileurl));
+            string fileurl= SPUtility.ConcatUrls(serverUrl, spfileurl);
+            string weblink = WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(fileurl, SPFBAUserName), fileurl);
+            responseMessage.Content = CurrentCulture.Name.Equals("zh-CN") ? string.Concat((SPFBAUser.SaveMessageToPublic ? "公开" : "私有"), "保存图片到服务器：", weblink )
+                : string.Concat("Image file saved to server ", (SPFBAUser.SaveMessageToPublic ? "publicly" : "privately"), ": ", weblink);
+
             return responseMessage;
         }
 
@@ -492,10 +514,10 @@ namespace weixin
                             t[SPBuiltInFieldId.Body] = content;
                             t.Update();
 
-                            
-                            
 
 
+
+                            string MessageListUrl = SPUtility.ConcatUrls(serverUrl, currentMessageList.DefaultViewUrl);
 
                             switch (CurrentCulture.Name)
                             {
@@ -503,10 +525,11 @@ namespace weixin
                                     string PrivateOrPublicMessage = SPFBAUser.SaveMessageToPublic ? "公开" : "作为私信";
                                     return
                         //"系统已把您发送的文本消息作为私信保存到电脑网站 " + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine
-                        "系统已把您发送的文本消息 "+ PrivateOrPublicMessage + " 保存到电脑网站 " + SPUtility.ConcatUrls(serverUrl, currentMessageList.DefaultViewUrl) + System.Environment.NewLine
+                        //"系统已把您发送的文本消息 "+ PrivateOrPublicMessage + " 保存到电脑网站 " + SPUtility.ConcatUrls(serverUrl, currentMessageList.DefaultViewUrl) + System.Environment.NewLine
+                        "系统已把您发送的文本消息 " + PrivateOrPublicMessage + " 保存到电脑网站 " + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(string.Concat(MessageListUrl,"?mobile=0"),SPFBAUserName),MessageListUrl) + System.Environment.NewLine
                       //+ "发送字符 X 切换您发送的后续消息保存公开状态." + System.Environment.NewLine
                       + MessageLink("x", "7", "发送命令x，切换您发送的后续消息保存公开状态") + System.Environment.NewLine
-                      + "您可以直接用电脑登录打开此链接查看回复，或者用电脑浏览器打开 " + serverUrl + " 搜索（比如用自己的用户名作为关键词）" + System.Environment.NewLine
+                      //+ "您可以直接用电脑登录打开此链接查看回复，或者用电脑浏览器打开 " + serverUrl + " 搜索（比如用自己的用户名作为关键词）" + System.Environment.NewLine
                       //+ "发送单个字符 G 重新获取网站用户名及动态密码。" + System.Environment.NewLine
                       + MessageLink("h", "8", "发送命令h，获取命令列表") + System.Environment.NewLine + System.Environment.NewLine
                       //+ "Please send message 'en' to switch to English." + System.Environment.NewLine;
@@ -517,10 +540,11 @@ namespace weixin
                                     string PrivateOrPublicMessageEn = SPFBAUser.SaveMessageToPublic ? "publicly" : "privately";
                                     return
                      //"System saved the text message you sent to as private discussion into this SharePoint discussion board:" + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine
-                     "System saved the text message you sent "+ PrivateOrPublicMessageEn +" into this SharePoint discussion board:" + SPUtility.ConcatUrls(serverUrl, currentMessageList.DefaultViewUrl) + System.Environment.NewLine
+                     //"System saved the text message you sent "+ PrivateOrPublicMessageEn +" into this SharePoint discussion board:" + SPUtility.ConcatUrls(serverUrl, currentMessageList.DefaultViewUrl) + System.Environment.NewLine
+                     "System saved the text message you sent " + PrivateOrPublicMessageEn + " into this SharePoint discussion board:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(string.Concat(MessageListUrl, "?mobile=0"), SPFBAUserName), MessageListUrl) + System.Environment.NewLine
                     //+ "Send letter X to toggle your future message privacy." + System.Environment.NewLine
                     + MessageLink("x", "7", "send x to toggle your future message privacy") + System.Environment.NewLine
-                    + "You can open the link with PC browser to check reply，or open with PC browser " + serverUrl + " to search (using your username get here as keyword for example)." + System.Environment.NewLine
+                    //+ "You can open the link with PC browser to check reply，or open with PC browser " + serverUrl + " to search (using your username get here as keyword for example)." + System.Environment.NewLine
                     + MessageLink("h", "8", "send h to view this command list") + System.Environment.NewLine + System.Environment.NewLine
                     + MessageLink("cn", "3", "如果您想切换回中文，请发送消息 'cn'");
 

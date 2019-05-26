@@ -1,6 +1,7 @@
 ﻿using Microsoft.SharePoint;
 using Microsoft.SharePoint.IdentityModel;
 using Microsoft.SharePoint.IdentityModel.Pages;
+using Microsoft.SharePoint.Utilities;
 using Sharepoint.FormsBasedAuthentication;
 using SharePoint.Helpers;
 using System;
@@ -31,34 +32,45 @@ namespace weixin
         {
             //base.OnLoad(e);
 
-            string tk = Request.QueryString[WeChatTokenQueryStringName];
-
-            if (Request.IsAuthenticated)
+            try
             {
-                if(!string.IsNullOrEmpty(tk))
+                string tk = Request.QueryString[WeChatTokenQueryStringName];
+
+                if (Request.IsAuthenticated)
                 {
-                    string[] usernamePassword = GetUserNamePasswordFromTK(tk).Split(':');
-                    //if (!SPContext.Current.Web.CurrentUser.LoginName.EndsWith(string.Concat("|", usernamePassword[0])))
+                    if (!string.IsNullOrEmpty(tk))
                     {
+                        string[] usernamePassword = GetUserNamePasswordFromTK(tk).Split(':');
+                        //if (!SPContext.Current.Web.CurrentUser.LoginName.EndsWith(string.Concat("|", usernamePassword[0])))
+                        {
+                            SecurityToken stk = SPSecurityContext.SecurityTokenForFormsAuthentication(AppliesTo, Utils.BaseMembershipProvider().Name, Utils.BaseRoleProvider().Name, usernamePassword[0], usernamePassword[1], false);
+                            if (stk == null) throw new Exception("生成的SecurityToken为null,可能是动态密码过期,请尝试刷新微信公众号命令，获取新的网站链接");
+                            SPFederationAuthenticationModule spFedAuthModule = this.Context.ApplicationInstance.Modules["FederatedAuthentication"] as SPFederationAuthenticationModule;
+                            SPSecurity.RunWithElevatedPrivileges(() => spFedAuthModule.SetPrincipalAndWriteSessionToken(stk, SPSessionTokenWriteType.WriteSessionCookie));
+                        }
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(tk))
+                    {
+                        throw new Exception("WeChatTokenQueryStringName 参数为空");
+                    }
+                    else
+                    {
+                        string[] usernamePassword = GetUserNamePasswordFromTK(tk).Split(':');
                         SecurityToken stk = SPSecurityContext.SecurityTokenForFormsAuthentication(AppliesTo, Utils.BaseMembershipProvider().Name, Utils.BaseRoleProvider().Name, usernamePassword[0], usernamePassword[1], false);
+                        if (stk == null) throw new Exception("生成的SecurityToken为null,可能是动态密码过期,请尝试刷新微信公众号命令，获取新的网站链接");
                         SPFederationAuthenticationModule spFedAuthModule = this.Context.ApplicationInstance.Modules["FederatedAuthentication"] as SPFederationAuthenticationModule;
                         SPSecurity.RunWithElevatedPrivileges(() => spFedAuthModule.SetPrincipalAndWriteSessionToken(stk, SPSessionTokenWriteType.WriteSessionCookie));
                     }
                 }
             }
-            else
+            catch(Exception ex)
             {
-                if (string.IsNullOrEmpty(tk))
-                {
-                    throw new Exception("未验证用户");
-                }
-                else
-                {
-                    string[] usernamePassword = GetUserNamePasswordFromTK(tk).Split(':');
-                    SecurityToken stk = SPSecurityContext.SecurityTokenForFormsAuthentication(AppliesTo, Utils.BaseMembershipProvider().Name, Utils.BaseRoleProvider().Name, usernamePassword[0], usernamePassword[1], false);
-                    SPFederationAuthenticationModule spFedAuthModule = this.Context.ApplicationInstance.Modules["FederatedAuthentication"] as SPFederationAuthenticationModule;
-                    SPSecurity.RunWithElevatedPrivileges(() => spFedAuthModule.SetPrincipalAndWriteSessionToken(stk, SPSessionTokenWriteType.WriteSessionCookie));
-                }
+                MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.Weixin, Microsoft.SharePoint.Administration.TraceSeverity.Unexpected, ex.Message);
+                MyFBADiagnosticsService.Local.WriteTrace(0, MyFBADiagnosticsService.FBADiagnosticsCategory.Weixin, Microsoft.SharePoint.Administration.TraceSeverity.Unexpected, ex.StackTrace);
+                SPUtility.TransferToErrorPage(ex.Message);
             }
         }
     }

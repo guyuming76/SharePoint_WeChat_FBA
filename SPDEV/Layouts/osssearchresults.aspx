@@ -51,7 +51,9 @@
 	padding-left:5px!important;
 }
 
-
+.srch-Page A:link{
+    font-size:2.5em!important;
+}
 
         </ContentTemplate>
     </SharePoint:UIVersionedContent>
@@ -199,9 +201,9 @@ ms-formareaframe
                      <span class="srch-maintopleft">        
                          <SearchWC:SearchStatsWebPart runat="server" FrameType="None"/>
                      </span>
-                     <span class="srch-maintopright">
+<%--                     <span class="srch-maintopright">
                          <SearchWC:CoreResultsWebPart runat="server" ChromeType="None" ShowMessages=false ShowSearchResults=false UseLocationVisualization=true />
-                     </span>
+                     </span>--%>
                  </div>
                  <div class="srch-sitesearchmaintop">
                     <SearchWC:CoreResultsWebPart runat="server" ShowActionLinks=false ChromeType="None" DefaultSort="Modified_Date" />     

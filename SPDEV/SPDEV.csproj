@@ -70,6 +70,13 @@
     <Reference Include="Microsoft.SharePoint" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlTemplates\SPDEV\AdditionalPageHeader.ascx.cs">
+      <DependentUpon>AdditionalPageHeader.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ControlTemplates\SPDEV\AdditionalPageHeader.ascx.designer.cs">
+      <DependentUpon>AdditionalPageHeader.ascx.cs</DependentUpon>
+    </Compile>
     <Compile Include="FBADataSource.cs" />
     <Compile Include="FBADiagnosticsService.cs" />
     <Compile Include="FBARolesView.cs" />
@@ -81,6 +88,14 @@
     <Compile Include="helpers\MemebershipRoleProviderHelper.cs" />
     <Compile Include="helpers\SPDPAPI.cs" />
     <Compile Include="helpers\SPHelper.cs" />
+    <Compile Include="HideQuickLauchForListForm\HideQuickLauchForListForm.ascx.cs">
+      <DependentUpon>HideQuickLauchForListForm.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="HideQuickLauchForListForm\HideQuickLauchForListForm.ascx.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HideQuickLauchForListForm.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Layouts\ClaimViewer.aspx.cs">
       <DependentUpon>ClaimViewer.aspx</DependentUpon>
     </Compile>
@@ -170,6 +185,14 @@
     <Compile Include="Layouts\weixin\weixin.cs" />
     <Compile Include="LocalizedString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuickLaunchToRightFixForPictureLibView\QuickLaunchToRightFixForPictureLibView.ascx.cs">
+      <DependentUpon>QuickLaunchToRightFixForPictureLibView.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="QuickLaunchToRightFixForPictureLibView\QuickLaunchToRightFixForPictureLibView.ascx.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuickLaunchToRightFixForPictureLibView.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +201,9 @@
     </None>
     <None Include="ClaimsViewerCustomAction\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{c1359f8b-444e-4743-a588-3523cdf3a4e1}</SharePointProjectItemId>
+    </None>
+    <None Include="ControlTemplates\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{335ccbea-c4c6-4db0-8646-97fe79a768f0}</SharePointProjectItemId>
     </None>
     <None Include="deploy.ps1" />
     <None Include="FBASiteConfigurationCustomAction\SharePointProjectItem.spdata">
@@ -188,6 +214,10 @@
     </None>
     <None Include="Features\WeChat Public Account\WeChat Public Account.feature">
       <FeatureId>{2528a5a0-1b99-4433-a695-2a86b93f025b}</FeatureId>
+    </None>
+    <None Include="HideQuickLauchForListForm\HideQuickLauchForListForm.webpart" />
+    <None Include="HideQuickLauchForListForm\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{ddecd71c-2239-4029-b184-371ae88b31aa}</SharePointProjectItemId>
     </None>
     <None Include="key.snk" />
     <None Include="Layouts\SharePointProjectItem.spdata">
@@ -200,6 +230,10 @@
     </None>
     <None Include="Package\Package.Template.xml">
       <DependentUpon>Package.package</DependentUpon>
+    </None>
+    <None Include="QuickLaunchToRightFixForPictureLibView\QuickLaunchToRightFixForPictureLibView.webpart" />
+    <None Include="QuickLaunchToRightFixForPictureLibView\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{6dce6c15-0f05-4b32-9684-99e4b7d05e21}</SharePointProjectItemId>
     </None>
     <None Include="ResourcesAppGlobal\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{6f5ae554-d340-4b0a-aca2-d25fe8e7d0f0}</SharePointProjectItemId>
@@ -216,12 +250,18 @@
   <ItemGroup>
     <Content Include="AppearInWeChatSearch\Elements.xml" />
     <Content Include="ClaimsViewerCustomAction\Elements.xml" />
+    <Content Include="ControlTemplates\SPDEV\AdditionalPageHeader.ascx" />
     <Content Include="FBASiteConfigurationCustomAction\Elements.xml" />
     <Content Include="Features\DiagnosticsService\DiagnosticsService.Template.xml">
       <DependentUpon>DiagnosticsService.feature</DependentUpon>
     </Content>
     <Content Include="Features\WeChat Public Account\WeChat Public Account.Template.xml">
       <DependentUpon>WeChat Public Account.feature</DependentUpon>
+    </Content>
+    <Content Include="HideQuickLauchForListForm\Elements.xml" />
+    <Content Include="HideQuickLauchForListForm\HideQuickLauchForListForm.ascx">
+      <Generator>SharePointWebPartCodeGenerator</Generator>
+      <LastGenOutput>HideQuickLauchForListForm.ascx.g.cs</LastGenOutput>
     </Content>
     <Content Include="Layouts\ClaimViewer.aspx" />
     <Content Include="Layouts\custPages\ApplicationPage1.aspx" />
@@ -241,6 +281,11 @@
     <Content Include="Layouts\osssearchresultsBAK.aspx" />
     <Content Include="Layouts\weixin\WeChat100.png" />
     <Content Include="Layouts\weixin\WeChat200.png" />
+    <Content Include="QuickLaunchToRightFixForPictureLibView\Elements.xml" />
+    <Content Include="QuickLaunchToRightFixForPictureLibView\QuickLaunchToRightFixForPictureLibView.ascx">
+      <Generator>SharePointWebPartCodeGenerator</Generator>
+      <LastGenOutput>QuickLaunchToRightFixForPictureLibView.ascx.g.cs</LastGenOutput>
+    </Content>
     <Content Include="ResourcesAppGlobal\Elements.xml" />
     <Content Include="WeChatPicUrl\Elements.xml">
       <SubType>Designer</SubType>

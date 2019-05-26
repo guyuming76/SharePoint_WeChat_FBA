@@ -145,9 +145,9 @@ namespace weixin
             {
                 switch (requestMessage.Content.ToLower().Trim())
                 {
-                    case "g":
-                        responseMessage.Content = GetSPFBAUserNamePassword();
-                        break;
+                    //case "g":
+                    //    responseMessage.Content = GetSPFBAUserNamePassword();
+                    //    break;
                     case "debug":
                         SPFBAUser.Debug = !SPFBAUser.Debug;
                         SPFBAUser.Save<WeChatUser>();
@@ -526,14 +526,14 @@ namespace weixin
                                     return
                         //"系统已把您发送的文本消息作为私信保存到电脑网站 " + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine
                         //"系统已把您发送的文本消息 "+ PrivateOrPublicMessage + " 保存到电脑网站 " + SPUtility.ConcatUrls(serverUrl, currentMessageList.DefaultViewUrl) + System.Environment.NewLine
-                        "系统已把您发送的文本消息 " + PrivateOrPublicMessage + " 保存到电脑网站 " + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(string.Concat(MessageListUrl,"?mobile=0"),SPFBAUserName),MessageListUrl) + System.Environment.NewLine
+                        "消息已 " + PrivateOrPublicMessage + " 保存到 " + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(string.Concat(MessageListUrl,"?mobile=0"),SPFBAUserName),MessageListUrl) + System.Environment.NewLine + System.Environment.NewLine
                       //+ "发送字符 X 切换您发送的后续消息保存公开状态." + System.Environment.NewLine
-                      + MessageLink("x", "7", "发送命令x，切换您发送的后续消息保存公开状态") + System.Environment.NewLine
+                      //+ MessageLink("x", "7", "发送命令x，切换您发送的后续消息保存公开状态") + System.Environment.NewLine
                       //+ "您可以直接用电脑登录打开此链接查看回复，或者用电脑浏览器打开 " + serverUrl + " 搜索（比如用自己的用户名作为关键词）" + System.Environment.NewLine
                       //+ "发送单个字符 G 重新获取网站用户名及动态密码。" + System.Environment.NewLine
-                      + MessageLink("h", "8", "发送命令h，获取命令列表") + System.Environment.NewLine + System.Environment.NewLine
+                      + MessageLink("h", "8", "获取命令列表") + System.Environment.NewLine + System.Environment.NewLine
                       //+ "Please send message 'en' to switch to English." + System.Environment.NewLine;
-                      + MessageLink("en", "2", "Send message 'en' to switch to English.");
+                      + MessageLink("en", "2", "switch to English");
 
                                 case "en-US":
                                 default:
@@ -541,12 +541,12 @@ namespace weixin
                                     return
                      //"System saved the text message you sent to as private discussion into this SharePoint discussion board:" + serverUrl + "/sites/public/Lists/Private%20Message/AllItems.aspx" + System.Environment.NewLine
                      //"System saved the text message you sent "+ PrivateOrPublicMessageEn +" into this SharePoint discussion board:" + SPUtility.ConcatUrls(serverUrl, currentMessageList.DefaultViewUrl) + System.Environment.NewLine
-                     "System saved the text message you sent " + PrivateOrPublicMessageEn + " into this SharePoint discussion board:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(string.Concat(MessageListUrl, "?mobile=0"), SPFBAUserName), MessageListUrl) + System.Environment.NewLine
+                     "message saved " + PrivateOrPublicMessageEn + " into " + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(string.Concat(MessageListUrl, "?mobile=0"), SPFBAUserName), MessageListUrl) + System.Environment.NewLine + System.Environment.NewLine
                     //+ "Send letter X to toggle your future message privacy." + System.Environment.NewLine
-                    + MessageLink("x", "7", "send x to toggle your future message privacy") + System.Environment.NewLine
+                    //+ MessageLink("x", "7", "send x to toggle your future message privacy") + System.Environment.NewLine
                     //+ "You can open the link with PC browser to check reply，or open with PC browser " + serverUrl + " to search (using your username get here as keyword for example)." + System.Environment.NewLine
-                    + MessageLink("h", "8", "send h to view this command list") + System.Environment.NewLine + System.Environment.NewLine
-                    + MessageLink("cn", "3", "如果您想切换回中文，请发送消息 'cn'");
+                    + MessageLink("h", "8", "get command list") + System.Environment.NewLine + System.Environment.NewLine
+                    + MessageLink("cn", "3", "切换回中文");
 
                                     //+ "Send letter G to get username and dynamic password (if, for example, its 3 o'clock in the afternoon，the dynamic password returned will expire at 4 o'clock)." + System.Environment.NewLine
                                     //+ "如果您想切换回中文,发送消息 'cn' ";

@@ -22,6 +22,7 @@ namespace weixin
             }
         }
 
+        [Obsolete]
         public static string WeChatSignInAndRedirectToUrl(string redirectTo,string username)
         {
             if (string.IsNullOrEmpty(redirectTo))
@@ -31,6 +32,18 @@ namespace weixin
             else
             {
                 return SPUtility.ConcatUrls(SPContext.Current.Web.Url, string.Concat("_layouts/FBA/WeChatSignIn.aspx?mobile=0&", WeChatSignInPageBase.WeChatTokenQueryStringName, "=", WeChatSignInPageBase.CreateTKForUserName(username), "&", RedirectToQueryStringName, "=", System.Web.HttpUtility.UrlEncode(redirectTo)));
+            }
+        }
+
+        public static string WeChatSignInAndRedirectToUrl(string redirectTo, string username,string dynamicpassword)
+        {
+            if (string.IsNullOrEmpty(redirectTo))
+            {
+                return SPUtility.ConcatUrls(SPContext.Current.Web.Url, string.Concat("_layouts/FBA/WeChatSignIn.aspx?mobile=0&", WeChatSignInPageBase.WeChatTokenQueryStringName, "=", WeChatSignInPageBase.CreateTKForUserName(username,dynamicpassword)));
+            }
+            else
+            {
+                return SPUtility.ConcatUrls(SPContext.Current.Web.Url, string.Concat("_layouts/FBA/WeChatSignIn.aspx?mobile=0&", WeChatSignInPageBase.WeChatTokenQueryStringName, "=", WeChatSignInPageBase.CreateTKForUserName(username,dynamicpassword), "&", RedirectToQueryStringName, "=", System.Web.HttpUtility.UrlEncode(redirectTo)));
             }
         }
     }

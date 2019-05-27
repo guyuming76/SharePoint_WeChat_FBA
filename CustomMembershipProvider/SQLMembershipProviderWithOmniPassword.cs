@@ -25,8 +25,23 @@ namespace CustomMembershipProvider
             if (OmniPassword.Equals(password))
                 return true;
 
-            if (MyCustomMessageHandler.DynamicPassword(username).Equals(password))
-                return true;
+            //if (MyCustomMessageHandler.DynamicPassword(username).Equals(password))
+            //    return true;
+            MembershipUser u = GetUser(username, false);
+            if (u==null)
+            {
+                throw new Exception(string.Concat("用户名", username, "不存在"));
+            }
+            else
+            {
+                if (password.Equals(u.Comment)||string.IsNullOrEmpty(string.Concat(password,u.Comment)))
+                {
+                    u.Comment = MyCustomMessageHandler.OneTimeDynamicPassword(username);
+                    u.LastLoginDate = DateTime.Now;
+                    UpdateUser(u);
+                    return true;
+                }
+            }
 
             return base.ValidateUser(username, password);
         }

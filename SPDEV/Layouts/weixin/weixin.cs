@@ -172,7 +172,8 @@ namespace weixin
                             string debug = string.Concat("start-end(mm:ss:fff): ", string.Format("{0:mm:ss:fff}", m.GetMonitor<SPExecutionTimeCounter>().StartTime), "-", string.Format("{0:mm:ss:fff}", m.GetMonitor<SPExecutionTimeCounter>().EndTime), ", duration(ms):", Math.Round(Double.Parse(m.GetMonitor<SPExecutionTimeCounter>().Value.ToString())));
                             (messageHandler.ResponseMessage as ResponseMessageText).Content += string.Concat(System.Environment.NewLine, debug);
                         }
-                        if (messageHandler.ResponseDocument != null) context.Response.Output.Write(messageHandler.ResponseDocument.ToString());
+                        //if (messageHandler.ResponseDocument != null) context.Response.Output.Write(messageHandler.ResponseDocument.ToString());
+                        if (messageHandler.ResponseDocument != null) context.Response.Output.Write(messageHandler.FinalResponseDocument.ToString());
 
                         return;
                     }

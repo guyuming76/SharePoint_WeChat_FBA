@@ -23,9 +23,15 @@ namespace weixin
             throw new Exception(string.Concat("无效的", WeChatTokenQueryStringName));
         }
 
+        [Obsolete]
         public static string CreateTKForUserName(string username)
         {
             return System.Web.HttpUtility.UrlEncode(EncryptTool.Encrypt(string.Concat("WeChatUserName:", username, ":", MyCustomMessageHandler.DynamicPassword(username)), MyCustomMessageHandler.SecretGuid, false));
+        }
+
+        public static string CreateTKForUserName(string username,string dynamicpassword)
+        {
+            return System.Web.HttpUtility.UrlEncode(EncryptTool.Encrypt(string.Concat("WeChatUserName:", username, ":", dynamicpassword), MyCustomMessageHandler.SecretGuid, false));
         }
 
         protected override void OnLoad(EventArgs e)

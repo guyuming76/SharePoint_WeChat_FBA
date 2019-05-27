@@ -1,5 +1,7 @@
 ﻿using Microsoft.SharePoint;
 using Microsoft.SharePoint.Utilities;
+using Sharepoint.FormsBasedAuthentication;
+using System;
 using System.Globalization;
 
 namespace weixin
@@ -18,6 +20,11 @@ namespace weixin
 
         private string GetWelcomeInfo(CultureInfo c)
         {
+            //string oneTimePassword = MyCustomMessageHandler.OneTimeDynamicPassword(SPFBAUserName);
+            //SPFBAUser.OneTimeDynamicPassword = oneTimePassword;
+            //SPFBAUser.Save<WeChatUser>();
+            string oneTimePassword = Utils.BaseMembershipProvider().GetUser(SPFBAUserName, false).Comment;
+
             //string redirectUrl = string.Concat(MyCustomMessageHandler.SiteWelcomeUrl, "?mobile=0");
             string redirectUrl = SPUtility.ConcatUrls(SPContext.Current.Web.Url, string.Concat("_layouts/osssearchresults.aspx?k=http&mobile=0&u=", System.Web.HttpUtility.UrlEncode(SPContext.Current.Site.Url)));
             //string searchresultpage = SPUtility.ConcatUrls(serverUrl, string.Concat("results.aspx?mobile=0&k=http&u=", System.Web.HttpUtility.UrlEncode(SPContext.Current.Web.Url)));
@@ -34,16 +41,17 @@ namespace weixin
      //"系统根据您的WeiXinOpenId在电脑网站(" + WebLink(string.Concat(SPUtility.ConcatUrls(SPContext.Current.Web.Url,"_layouts/FBA/WeChatSignIn.aspx?mobile=0&WeChatSignInTK="),WeChatSignInPageBase.CreateTKForUserName(SPFBAUserName)),siteWelcomeUrl) + ") 生成用户名:" + SPFBAUserName + System.Environment.NewLine
      //"系统根据您的WeiXinOpenId在网站(" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName), siteWelcomeUrl) + ") 生成用户名:" + SPFBAUserName + System.Environment.NewLine
      //"系统根据您的WeiXinOpenId在网站(" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName), SPContext.Current.Web.Url) + ") 生成用户名:" + SPFBAUserName + System.Environment.NewLine
-     "网站:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName), SPContext.Current.Web.Url) + System.Environment.NewLine
+     "网站:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName,oneTimePassword), SPContext.Current.Web.Url) + System.Environment.NewLine
     + "用户名:" + SPFBAUserName + System.Environment.NewLine
-    + "动态密码:" + DynamicPassword(SPFBAUserName) + System.Environment.NewLine + System.Environment.NewLine
+    //+ "动态密码:" + DynamicPassword(SPFBAUserName) + System.Environment.NewLine + System.Environment.NewLine
+    + "动态密码:" + oneTimePassword + System.Environment.NewLine + System.Environment.NewLine
     //+ " 当前整点时间是 " + string.Format("{0:yyyy/MM/dd dddd tt hh}", DateTime.Now) + "点。" + System.Environment.NewLine + System.Environment.NewLine
     //+ MessageLink("G", "1", "发送单个字符 G 重新获取网站用户名及动态密码。") + "(假如现在是下午3点多，返回的动态密码当天下午4点失效)。" + System.Environment.NewLine
     //+ "搜索中心:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(string.Concat(serverUrl, "?mobile=0"), SPFBAUserName), serverUrl) + System.Environment.NewLine
     //+ "搜索中心:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(searchresultpage, SPFBAUserName), serverUrl) + System.Environment.NewLine
     + MessageLink("lg", "5", "查看最新公开留言") + System.Environment.NewLine
     + MessageLink("ls", "6", "查看最新私信") + System.Environment.NewLine
-    + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(imageView,SPFBAUserName), "查看最新图片") + System.Environment.NewLine + System.Environment.NewLine
+    + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(imageView,SPFBAUserName,oneTimePassword), "查看最新图片") + System.Environment.NewLine + System.Environment.NewLine
 
     + string.Concat("当前消息保存状态:", SPFBAUser.SaveMessageToPublic ? "公开" : "私有") + System.Environment.NewLine
     + MessageLink("x", "7", "切换后续消息保存状态") + System.Environment.NewLine + System.Environment.NewLine
@@ -65,9 +73,10 @@ namespace weixin
      //+ " You can open the link with PC browser to check reply，or open with PC browser " + serverUrl + " to search (using your username get here as keyword for example)." + System.Environment.NewLine
      //"System created username " + SPFBAUserName + " for you (at SharePoint Site " + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName), siteWelcomeUrl) + "):" + System.Environment.NewLine
      //"System created username " + SPFBAUserName + " for you (at SharePoint Site " + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName), SPContext.Current.Web.Url) + "):" + System.Environment.NewLine
-    "SharePoint site:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName), SPContext.Current.Web.Url) + System.Environment.NewLine
+    "SharePoint site:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName,oneTimePassword), SPContext.Current.Web.Url) + System.Environment.NewLine
     + "Username:" + SPFBAUserName + System.Environment.NewLine
-    + "Dynamic password:" + DynamicPassword(SPFBAUserName) + System.Environment.NewLine + System.Environment.NewLine
+    //+ "Dynamic password:" + DynamicPassword(SPFBAUserName) + System.Environment.NewLine + System.Environment.NewLine
+    + "Dynamic password:" + oneTimePassword + System.Environment.NewLine + System.Environment.NewLine
     //+ MessageLink("G","1","Send letter G to get new dynamic password")+" (if, for example, its 3 o'clock in the afternoon，the dynamic password returned will expire at 4 o'clock)." + System.Environment.NewLine + System.Environment.NewLine
     //+ " System only handles text message now." + System.Environment.NewLine
     //+ " If you can never sign in the SharePoint web site with the username you get here after following, please try unfollow and follow again first, or leave a message on the web site to get help from administrator." + System.Environment.NewLine
@@ -75,7 +84,7 @@ namespace weixin
     //+ "Search Center:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(searchresultpage, SPFBAUserName), serverUrl) + System.Environment.NewLine
     + MessageLink("lg", "5", "view latest public message") + System.Environment.NewLine
     + MessageLink("ls", "6", "view latest private message") + System.Environment.NewLine
-    + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(imageView, SPFBAUserName), "view latest picture") + System.Environment.NewLine + System.Environment.NewLine
+    + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(imageView, SPFBAUserName,oneTimePassword), "view latest picture") + System.Environment.NewLine + System.Environment.NewLine
 
     + string.Concat("current message saving privacy: ", SPFBAUser.SaveMessageToPublic ? "public" : "private") + System.Environment.NewLine
     + MessageLink("x", "7", "toggle future message privacy") + System.Environment.NewLine + System.Environment.NewLine
@@ -93,7 +102,9 @@ namespace weixin
         //    return GetWelcomeInfo(CurrentCulture);
         //}
 
+        [Obsolete]
         private string GetSPFBAUserNamePassword()
+            //不再被调用了
         {
             //string redirectUrl = string.Concat(MyCustomMessageHandler.SiteWelcomeUrl, "?mobile=0");
             string redirectUrl = SPUtility.ConcatUrls(SPContext.Current.Web.Url, string.Concat("_layouts/osssearchresults.aspx?k=http&mobile=0"));

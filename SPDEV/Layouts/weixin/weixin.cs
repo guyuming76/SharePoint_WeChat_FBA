@@ -169,7 +169,9 @@ namespace weixin
 
                         if (messageHandler.ResponseMessage != null && messageHandler.SPFBAUser.Debug)
                         {
-                            string debug = string.Concat("start-end(mm:ss:fff): ", string.Format("{0:mm:ss:fff}", m.GetMonitor<SPExecutionTimeCounter>().StartTime), "-", string.Format("{0:mm:ss:fff}", m.GetMonitor<SPExecutionTimeCounter>().EndTime), ", duration(ms):", Math.Round(Double.Parse(m.GetMonitor<SPExecutionTimeCounter>().Value.ToString())));
+                            string debug = string.Concat("start-end(mm:ss:fff): ", string.Format("{0:mm:ss:fff}", m.GetMonitor<SPExecutionTimeCounter>().StartTime), "-", string.Format("{0:mm:ss:fff}", m.GetMonitor<SPExecutionTimeCounter>().EndTime), ", duration(ms):", Math.Round(Double.Parse(m.GetMonitor<SPExecutionTimeCounter>().Value.ToString())),
+                                System.Environment.NewLine, 
+                                (messageHandler.SPFBAUserName.Equals("233173287") ? MyCustomMessageHandler.MessageLink("WOL", "20", "唤醒开发机") : string.Empty));
                             (messageHandler.ResponseMessage as ResponseMessageText).Content += string.Concat(System.Environment.NewLine, debug);
                         }
                         //if (messageHandler.ResponseDocument != null) context.Response.Output.Write(messageHandler.ResponseDocument.ToString());

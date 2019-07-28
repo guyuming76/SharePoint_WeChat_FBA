@@ -88,6 +88,7 @@
     <Compile Include="helpers\MemebershipRoleProviderHelper.cs" />
     <Compile Include="helpers\SPDPAPI.cs" />
     <Compile Include="helpers\SPHelper.cs" />
+    <Compile Include="helpers\WakeOnLan.cs" />
     <Compile Include="HideQuickLauchForListForm\HideQuickLauchForListForm.ascx.cs">
       <DependentUpon>HideQuickLauchForListForm.ascx</DependentUpon>
     </Compile>

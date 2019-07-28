@@ -29,6 +29,8 @@ namespace weixin
                         string username = context.Request["username"];
                         context.Response.Write(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectTo, username));
                         break;
+                    case "wol": new WakeOnLine().WOLMyDEV();
+                        break;
                     default: break;
                 }
             }

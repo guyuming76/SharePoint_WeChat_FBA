@@ -206,6 +206,13 @@ namespace weixin
 
                     //    return responseMessageNews;
                     //    break;
+                    case "wol":
+                        if (SPFBAUserName.Equals("233173287"))
+                        {
+                            new WakeOnLine().WOLMyDEV();
+                        }
+                        break;
+
                     default:
                         DateTime next;
                         string nextDateTime1;

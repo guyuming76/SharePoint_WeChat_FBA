@@ -41,7 +41,7 @@ namespace weixin
      //"系统根据您的WeiXinOpenId在电脑网站(" + WebLink(string.Concat(SPUtility.ConcatUrls(SPContext.Current.Web.Url,"_layouts/FBA/WeChatSignIn.aspx?mobile=0&WeChatSignInTK="),WeChatSignInPageBase.CreateTKForUserName(SPFBAUserName)),siteWelcomeUrl) + ") 生成用户名:" + SPFBAUserName + System.Environment.NewLine
      //"系统根据您的WeiXinOpenId在网站(" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName), siteWelcomeUrl) + ") 生成用户名:" + SPFBAUserName + System.Environment.NewLine
      //"系统根据您的WeiXinOpenId在网站(" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName), SPContext.Current.Web.Url) + ") 生成用户名:" + SPFBAUserName + System.Environment.NewLine
-     "网站:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName,oneTimePassword), SPContext.Current.Web.Url) + System.Environment.NewLine
+     "网站:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(redirectUrl, SPFBAUserName, oneTimePassword), SPContext.Current.Web.Url) + System.Environment.NewLine
     + "用户名:" + SPFBAUserName + System.Environment.NewLine
     //+ "动态密码:" + DynamicPassword(SPFBAUserName) + System.Environment.NewLine + System.Environment.NewLine
     + "动态密码:" + oneTimePassword + System.Environment.NewLine + System.Environment.NewLine
@@ -51,14 +51,17 @@ namespace weixin
     //+ "搜索中心:" + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(searchresultpage, SPFBAUserName), serverUrl) + System.Environment.NewLine
     + MessageLink("lg", "5", "查看最新公开留言") + System.Environment.NewLine
     + MessageLink("ls", "6", "查看最新私信") + System.Environment.NewLine
-    + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(imageView,SPFBAUserName,oneTimePassword), "查看最新图片") + System.Environment.NewLine + System.Environment.NewLine
+    + WebLink(WeChatSignIn.WeChatSignInAndRedirectToUrl(imageView, SPFBAUserName, oneTimePassword), "查看最新图片") + System.Environment.NewLine + System.Environment.NewLine
 
     + string.Concat("当前消息保存状态:", SPFBAUser.SaveMessageToPublic ? "公开" : "私有") + System.Environment.NewLine
     + MessageLink("x", "7", "切换后续消息保存状态") + System.Environment.NewLine + System.Environment.NewLine
-    
+
     + MessageLink("h", "8", "刷新此命令列表") + System.Environment.NewLine + System.Environment.NewLine
 
-    + MessageLink("en","2","Switch to English."); 
+    + MessageLink("en", "2", "Switch to English.");
+    
+
+
 
     //+ " 发送其他任意消息，系统返回本提示消息。" + System.Environment.NewLine
     //+ " 目前系统只处理文本消息。" + System.Environment.NewLine
